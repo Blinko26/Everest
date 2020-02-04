@@ -13,14 +13,19 @@ animation = [pygame.image.load('./testAnim/dio1.png'), pygame.image.load('./test
 
 background = pygame.image.load("./testAnim/bg.jpg")
 
+
+
+
 player = Player()
+
+
 running = True
 def redrawGameWindow():
     screen.blit(background, (0, 0))
     #for i in range(0,6,1):
         #pygame.time.delay(50)
         #screen.blit(animation[i], (250, 250))
-       # pygame.display.update()
+        # pygame.display.update()
         #pygame.time.delay(50)
 
 while running:
