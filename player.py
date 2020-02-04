@@ -31,8 +31,15 @@ class Player(object):
         self.hitbox = (self.x, self.y, 50, 50)
 
      # Animation Marche
-        self.walkRight = [pygame.image.load('sprite/perso/player01-right.png'), pygame.image.load('sprite/perso/player01-run03-right.png'), pygame.image.load('sprite/perso/player01-run02-right.png'), pygame.image.load('sprite/perso/player01-run04-right.png')]
-        self.walkLeft = [pygame.image.load('sprite/perso/player01-left.png'), pygame.image.load('sprite/perso/player01-run03.png'), pygame.image.load('sprite/perso/player01-run02.png'), pygame.image.load('sprite/perso/player01-run04-left.png')]
+        self.walkRight = [pygame.image.load('sprite/perso/player01-right.png'),
+                          pygame.image.load('sprite/perso/player01-run03-right.png'),
+                          pygame.image.load('sprite/perso/player01-run02-right.png'),
+                          pygame.image.load('sprite/perso/player01-run04-right.png')]
+
+        self.walkLeft = [pygame.image.load('sprite/perso/player01-left.png'),
+                         pygame.image.load('sprite/perso/player01-run03.png'),
+                         pygame.image.load('sprite/perso/player01-run02.png'),
+                         pygame.image.load('sprite/perso/player01-run04-left.png')]
 
      # Animation Saut
         self.jumpLeft = [pygame.image.load('sprite/perso/player01-run.png')]
@@ -41,7 +48,15 @@ class Player(object):
         self.charLeft = pygame.image.load('sprite/perso/player01-left.png')
         self.charRight = pygame.image.load('sprite/perso/player01-right.png')
      # Animation Attaque
-        self.attackRight = [pygame.image.load('sprite/perso/player01-right-attaque.png'), pygame.image.load('sprite/perso/player01-right-attaque2.png'), pygame.image.load('sprite/perso/player01-right-attaque3.png'), pygame.image.load('sprite/perso/player01-right-attaque4.png')]
+        self.attackRight = [pygame.image.load('sprite/perso/player01-right-attaque.png'),
+                            pygame.image.load('sprite/perso/player01-right-attaque2.png'),
+                            pygame.image.load('sprite/perso/player01-right-attaque3.png'),
+                            pygame.image.load('sprite/perso/player01-right-attaque4.png')]
+
+        self.attackLeft = [pygame.image.load('sprite/perso/player01-left-attaque.png'),
+                            pygame.image.load('sprite/perso/player01-left-attaque2.png'),
+                            pygame.image.load('sprite/perso/player01-left-attaque3.png'),
+                            pygame.image.load('sprite/perso/player01-left-attaque4.png')]
      # Animation Dash
         self.dashImg = pygame.image.load('sprite/Dash/dashCopie.png')
 
@@ -62,7 +77,10 @@ class Player(object):
                 windows.blit(self.walkRight[self.walkCount // 7], (self.x, self.y))
                 self.walkCount += 1
         elif self.attacking:
-            windows.blit(self.attackRight[self.walkCount // 7], (self.x, self.y))
+            if self.right:
+                windows.blit(self.attackRight[self.walkCount // 7], (self.x, self.y))
+            else:
+                windows.blit(self.attackLeft[self.walkCount // 7], (self.x, self.y))
             self.walkCount += 1
         else:
             if self.isJump:

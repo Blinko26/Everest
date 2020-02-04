@@ -12,7 +12,7 @@ run = True
 background = pygame.image.load('sprite/spriteMenu/backgroundmenu.png')
 background = pygame.transform.scale(background, (1024, 768))
 
-creditBackground = pygame.image.load('sprite/spriteMenu/creditsBackground.png')
+creditBackground = pygame.image.load('sprite/spriteMenu/credits.png')
 
 titre = pygame.image.load('sprite/spriteMenu/titre.png')
 jouer = pygame.image.load('sprite/spriteMenu/jouer.png')
