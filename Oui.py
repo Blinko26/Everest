@@ -17,7 +17,6 @@ clock = pygame.time.Clock()
 bonhommeImg = [pygame.image.load('sprite/petitTrollDroit.png'), pygame.image.load('sprite/petitTrollGauche.png')]
 dashImg = pygame.image.load('sprite/dashSprite.png')
 
-bg = [pygame.image.load('bg1.jpg'), pygame.image.load('bg2.jpg')]
 bgfill = [white, black, red]
 
 x = (display_width * 0.45)
@@ -50,20 +49,20 @@ while running:
     while countDash != 0:
         if Haut:
             dashImg = pygame.transform.rotate(dashImg, -90)
-            gameDisplay.blit(dashImg, (x + 10, y-dashValue-(countDash/1000)))
+            gameDisplay.blit(dashImg, (x + 10, y+dashValue-(dashValue/countDash)))
             dashImg = pygame.transform.rotate(dashImg, 90)
         elif Bas:
             dashImg = pygame.transform.rotate(dashImg, 90)
-            gameDisplay.blit(dashImg, (x + 10, y+dashValue))
+            gameDisplay.blit(dashImg, (x + 10, y-dashValue+(dashValue/countDash)))
             dashImg = pygame.transform.rotate(dashImg, -90)
-        elif Gauche:
+        elif Droit:
             dashImg = pygame.transform.rotate(dashImg, 180)
-            gameDisplay.blit(dashImg, (x + 10, y+dashValue))
-            dashImg = pygame.transform.rotate(dashImg, -90)
+            gameDisplay.blit(dashImg, (x-dashValue+(dashValue/countDash), y+10))
+            dashImg = pygame.transform.rotate(dashImg, 180)
         else:
-            gameDisplay.blit(dashImg, (x + 10, y+dashValue))
+            gameDisplay.blit(dashImg, (x+dashValue-(dashValue/countDash), y+10))
         countDash += 1
-        if countDash >= 4000:
+        if countDash >= 8000:
             countDash = 0
 
     #Si le personnage atteint le bout de la fenêtre
@@ -125,12 +124,22 @@ while running:
                     dashImg = pygame.transform.rotate(dashImg, 90)
                     y -= dashValue
                 elif Bas:
-                    y += 200
+                    countDash = 1
+                    dashImg = pygame.transform.rotate(dashImg, 90)
+                    gameDisplay.blit(dashImg, (x+10, y))
+                    dashImg = pygame.transform.rotate(dashImg, -90)
+                    y += dashValue
                 else:
                     if Droit:
-                        x += 200
+                        countDash = 1
+                        dashImg = pygame.transform.rotate(dashImg, 180)
+                        gameDisplay.blit(dashImg, (x + 10, y + 10))
+                        dashImg = pygame.transform.rotate(dashImg, 180)
+                        x += dashValue
                     else:
-                        x -= 200
+                        countDash = 1
+                        gameDisplay.blit(dashImg, (x + 10, y + 10))
+                        x -= dashValue
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_q or event.key == pygame.K_d:
