@@ -81,13 +81,12 @@ def niveau1():
             if len(bullets) < 1:
                 bullets.append(projectile(round(man.x+man.width//2), round(man.y + man.height//2), 6, (0, 0,0), facing))
 
-        if keys[pygame.K_LEFT] and man.x > man.vel:
+        if keys[pygame.K_LEFT] and man.x > 0:
             man.x -= man.vel
             man.left = True
             man.right = False
             man.standing = False  # NEW
-
-        elif keys[pygame.K_RIGHT] and man.x < 500 - man.width - man.vel:
+        elif keys[pygame.K_RIGHT] and man.x < windows.get_width() - man.width:
             man.x += man.vel
             man.right = True
             man.left = False
@@ -115,6 +114,9 @@ def niveau1():
             else:
                 man.isJump = False
                 man.jumpCount = 8
+
+        if keys[pygame.K_a]:
+            man.dash(windows)
 
         redrawGameWindow()
 
