@@ -26,7 +26,6 @@ class player(object):
         self.charRight = pygame.image.load('sprite/perso/player01-right.png')
 
     def draw(self, windows):
-        i = 0
         if self.walkCount + 1 >= 27:
             self.walkCount = 0
 

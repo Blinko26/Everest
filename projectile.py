@@ -9,7 +9,10 @@ class projectile(object):
         self.color = color
         self.facing =facing
         self.vel = 8 * facing
-        self.picture = pygame.image.load('sprite/laser.png')
-
+        self.picture = [pygame.image.load('sprite/Attack/Attack01-left01.png'), pygame.image.load('sprite/Attack/Attack01-left02.png'), pygame.image.load('sprite/Attack/Attack02-left01.png'), pygame.image.load('sprite/Attack/Attack02-left02.png')]
+        self.rounds = 0
     def draw(self, windows):
-        windows.blit(self.picture,  (self.x, self.y-15))
+        if self.rounds + 1 >= 27:
+            self.rounds = 0
+        windows.blit(self.picture[self.rounds//7],  (self.x, self.y-15))
+        self.rounds += 1
