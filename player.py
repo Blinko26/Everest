@@ -36,7 +36,7 @@ class Player(object):
         self.charLeft = pygame.image.load('sprite/perso/player01-left.png')
         self.charRight = pygame.image.load('sprite/perso/player01-right.png')
 
-        self.dashImg = pygame.image.load('sprite/dashSprite.png')
+        self.dashImg = pygame.image.load('sprite/Dash/dash.png')
 
     def draw(self, windows):
         if self.walkCount + 1 >= 27:
@@ -80,21 +80,22 @@ class Player(object):
 
             if self.right:
                 self.dashImg = pygame.transform.rotate(self.dashImg, 180)
-                window.blit(self.dashImg, (self.x + 10, self.y + 10))
+                window.blit(self.dashImg, (self.x + 10, self.y +20))
                 self.dashImg = pygame.transform.rotate(self.dashImg, 180)
                 self.x += self.dashVel
             else:
-                window.blit(self.dashImg, (self.x + 10, self.y + 10))
+                window.blit(self.dashImg, (self.x + 10, self.y + 20))
                 self.x -= self.dashVel
 
             count_dash = 1
             while count_dash != 0:
                 if self.right:
                     self.dashImg = pygame.transform.rotate(self.dashImg, 180)
-                    window.blit(self.dashImg, (self.x - self.dashVel + (self.dashVel / count_dash), self.y + 10))
+                    window.blit(self.dashImg, (self.x - self.dashVel + (self.dashVel / count_dash), self.y + 20))
                     self.dashImg = pygame.transform.rotate(self.dashImg, 180)
                 else:
-                    window.blit(self.dashImg, (self.x + self.dashVel - (self.dashVel / count_dash), self.y + 10))
+                    window.blit(self.dashImg, (self.x + self.dashVel - (self.dashVel / count_dash), self.y + 20))
                 count_dash += 1
-                if count_dash >= 1000:
+                if count_dash >= 20:
                     count_dash = 0
+                pygame.display.update()
