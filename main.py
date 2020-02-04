@@ -32,7 +32,7 @@ def niveau1():
         windows.blit(background, (0,0))
         man.draw(windows)
         vison.draw(windows)
-
+        protection.draw(windows, man.x, man.y)
         for bullet in bullets:
             bullet.draw(windows)
 
@@ -48,6 +48,7 @@ def niveau1():
     vison = enemy(100, 420, 64, 64, 300)
 
     bullets = []
+    protection = Protection(round(man.x+man.width//2), round(man.y + man.height//2), 6, 1)
     run = True
 
     while run:
@@ -77,7 +78,7 @@ def niveau1():
             else:
                 facing = 1
 
-            if len(bullets) < 5:
+            if len(bullets) < 1:
                 bullets.append(projectile(round(man.x+man.width//2), round(man.y + man.height//2), 6, (0, 0,0), facing))
 
         if keys[pygame.K_LEFT] and man.x > man.vel:
@@ -85,22 +86,16 @@ def niveau1():
             man.left = True
             man.right = False
             man.standing = False  # NEW
+
         elif keys[pygame.K_RIGHT] and man.x < 500 - man.width - man.vel:
             man.x += man.vel
             man.right = True
             man.left = False
             man.standing = False  # NEW
         elif keys[pygame.K_e]:
-            if man.left:
-                facing = -1
-            else:
-                facing = 1
-            protection = Protection(man.x, man.y, 6, facing)
-            protection.draw(windows)
-            pygame.display.update()
-            pygame.time.delay(500)
+            protection.active = True
         else:
-
+            protection.active = False
             man.standing = True  # NEW (removed two lines)
             man.walkCount = 0
 
