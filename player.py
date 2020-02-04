@@ -14,13 +14,16 @@ class player(object):
         self.all_projectile = pygame.sprite.Group()
         self.walkCount = 0
         self.jumpCount = 8
-        self.stranding = True
+        self.standing = True
 
         self.hitbox = (self.x, self.y, 50, 50)
 
-        self.walkRight = [pygame.image.load('sprite/perso/player01-right.png'), pygame.image.load('sprite/perso/player01-run03-right.png'), pygame.image.load('sprite/perso/player01-run02-right.png'), pygame.image.load('sprite/perso/player01-croisees2.png'), pygame.image.load('sprite/perso/player01-run-right.png')]
-        self.walkLeft = [pygame.image.load('sprite/perso/player01-left.png'), pygame.image.load('sprite/perso/player01-run03.png'), pygame.image.load('sprite/perso/player01-run02.png'), pygame.image.load('sprite/perso/player01-croisees.png'), pygame.image.load('sprite/perso/player01-run.png')]
-        self.char = pygame.image.load('sprite/perso/player01-left.png')
+        self.walkRight = [pygame.image.load('sprite/perso/player01-right.png'), pygame.image.load('sprite/perso/player01-run03-right.png'), pygame.image.load('sprite/perso/player01-run02-right.png'), pygame.image.load('sprite/perso/player01-run04-right.png')]
+        self.walkLeft = [pygame.image.load('sprite/perso/player01-left.png'), pygame.image.load('sprite/perso/player01-run03.png'), pygame.image.load('sprite/perso/player01-run02.png'), pygame.image.load('sprite/perso/player01-run04-left.png')]
+        self.jumpLeft = [pygame.image.load('sprite/perso/player01-run.png')]
+        self.jumpRight = [pygame.image.load('sprite/perso/player01-run-right.png')]
+        self.charLeft = pygame.image.load('sprite/perso/player01-left.png')
+        self.charRight = pygame.image.load('sprite/perso/player01-right.png')
 
     def draw(self, windows):
         i = 0
@@ -28,17 +31,31 @@ class player(object):
             self.walkCount = 0
 
         if not (self.standing):
-            if self.left:
-                    windows.blit(self.walkLeft[self.walkCount //6], (self.x, self.y))
-                    pygame.display.update()
+            if self.isJump:
+                if self.left:
+                    windows.blit(self.jumpLeft[0], (self.x, self.y))
+                elif self.right:
+                    windows.blit(self.jumpRight[0], (self.x, self.y))
+            elif self.left:
+                    windows.blit(self.walkLeft[self.walkCount //7], (self.x, self.y))
                     self.walkCount += 1
             elif self.right:
-
-                    windows.blit(self.walkRight[self.walkCount //6], (self.x, self.y))
-                    pygame.display.update()
+                    windows.blit(self.walkRight[self.walkCount //7], (self.x, self.y))
                     self.walkCount += 1
 
         else:
-            windows.blit(self.char, (self.x, self.y))
+            if self.isJump:
+                if self.right:
+                    windows.blit(self.jumpRight[0], (self.x, self.y))
+                elif self.left:
+                    windows.blit(self.jumpLeft[0], (self.x, self.y))
+
+            else:
+                if self.right:
+                    windows.blit(self.charRight, (self.x, self.y))
+                else:
+                    windows.blit(self.charLeft, (self.x, self.y))
         self.hitbox = (self.x +10, self.y+5, 30, 35)  # NEW
         pygame.draw.rect(windows, (255, 0, 0), self.hitbox, 2)
+
+        pygame.display.update()

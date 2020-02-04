@@ -70,7 +70,7 @@ def niveau1():
 
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_SPACE ]:
+        if keys[pygame.K_SPACE]:
             if man.left:
                 facing = -1
             else:
@@ -97,9 +97,8 @@ def niveau1():
         if not (man.isJump):
             if keys[pygame.K_UP]:
                 man.isJump = True
-                man.right = False
-                man.left = False
                 man.walkCount = 0
+
         else:
             if man.jumpCount >= -8:
                 neg = 1
@@ -107,6 +106,7 @@ def niveau1():
                     neg = -1
                 man.y -= (man.jumpCount ** 2) * 0.5 * neg
                 man.jumpCount -= 1
+
             else:
                 man.isJump = False
                 man.jumpCount = 8
