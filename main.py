@@ -73,35 +73,39 @@ def niveau1():
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_SPACE]:
+            man.attacking = True
+            man.attack(windows)
             if man.left:
                 facing = -1
             else:
                 facing = 1
 
             if len(bullets) < 1:
-                bullets.append(projectile(round(man.x+man.width//2), round(man.y + man.height//2), 6, (0, 0,0), facing))
+                bullets.append(projectile(round(man.x+man.width//2), round(man.y + man.height//2), 6, (0, 0, 0), facing))
 
         if keys[pygame.K_LEFT] and man.x > 0:
             man.x -= man.vel
             man.left = True
             man.right = False
             man.standing = False  # NEW
+            man.attacking = False
         elif keys[pygame.K_RIGHT] and man.x < windows.get_width() - man.width:
             man.x += man.vel
             man.right = True
             man.left = False
             man.standing = False  # NEW
+            man.attacking = False
         elif keys[pygame.K_e]:
             protection.active = True
         else:
             protection.active = False
             man.standing = True  # NEW (removed two lines)
-            man.walkCount = 0
+            #man.walkCount = 0
 
         if not man.isJump:
             if keys[pygame.K_UP]:
                 man.isJump = True
-                man.walkCount = 0
+                #man.walkCount = 0
 
         else:
             if man.jumpCount >= -8:
@@ -116,7 +120,9 @@ def niveau1():
                 man.jumpCount = 8
 
         if keys[pygame.K_a]:
+            man.attacking = False
             man.dash(windows)
+
 
         redrawGameWindow()
 
