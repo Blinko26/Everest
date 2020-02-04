@@ -1,7 +1,8 @@
 import pygame
 pygame.init()
 
-class player(object):
+
+class Player(object):
     def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
@@ -29,18 +30,18 @@ class player(object):
         if self.walkCount + 1 >= 27:
             self.walkCount = 0
 
-        if not (self.standing):
+        if not self.standing:
             if self.isJump:
-                if self.left:
-                    windows.blit(self.jumpLeft[0], (self.x, self.y))
-                elif self.right:
+                if self.right:
                     windows.blit(self.jumpRight[0], (self.x, self.y))
+                else:
+                    windows.blit(self.jumpLeft[0], (self.x, self.y))
             elif self.left:
-                    windows.blit(self.walkLeft[self.walkCount //7], (self.x, self.y))
-                    self.walkCount += 1
+                windows.blit(self.walkLeft[self.walkCount //7], (self.x, self.y))
+                self.walkCount += 1
             elif self.right:
-                    windows.blit(self.walkRight[self.walkCount //7], (self.x, self.y))
-                    self.walkCount += 1
+                windows.blit(self.walkRight[self.walkCount //7], (self.x, self.y))
+                self.walkCount += 1
 
         else:
             if self.isJump:
@@ -54,7 +55,7 @@ class player(object):
                     windows.blit(self.charRight, (self.x, self.y))
                 else:
                     windows.blit(self.charLeft, (self.x, self.y))
-        self.hitbox = (self.x +10, self.y+5, 20, 90)  # NEW
+        self.hitbox = (self.x + 10, self.y + 5, 20, 90)  # NEW
         pygame.draw.rect(windows, (255, 0, 0), self.hitbox, 2)
 
         pygame.display.update()
