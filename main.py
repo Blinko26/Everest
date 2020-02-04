@@ -90,6 +90,7 @@ def niveau1():
             man.left = False
             man.standing = False  # NEW
         else:
+
             man.standing = True  # NEW (removed two lines)
             man.walkCount = 0
 
