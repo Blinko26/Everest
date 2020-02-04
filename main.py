@@ -11,6 +11,7 @@ def niveau1():
     pygame.display.set_caption("DASHLAND")
 
     background = pygame.image.load('sprite/background.png')
+    background = pygame.transform.scale(background, (1024, 768))
 
     x = 50
     y = 400
@@ -65,7 +66,7 @@ def niveau1():
                     vison.hit()  # calls enemy hit method
                     score += 1
                     bullets.pop(bullets.index(bullet))  # removes bullet from bullet list
-            if bullet.x < 500 and bullet.x >0:
+            if bullet.x < windows.get_width() and bullet.x >0:
                 bullet.x += bullet.vel
             else:
                 bullets.pop(bullets.index(bullet))

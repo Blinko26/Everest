@@ -59,4 +59,5 @@ class enemy(object):
             self.health -= 1
         else:
             self.visible = False
+            self.hitbox = (-10000, -10000, -10000, -100000)
         print('hit')
