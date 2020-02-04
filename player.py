@@ -18,9 +18,9 @@ class player(object):
 
         self.hitbox = (self.x, self.y, 50, 50)
 
-        self.walkRight = [pygame.image.load('sprite/petitTrollDroit.png')]
-        self.walkLeft = [pygame.image.load('sprite/petitTrollGauche.png')]
-        self.char = pygame.image.load('sprite/petitTroll.png')
+        self.walkRight = [pygame.image.load('sprite/perso/player01-right.png'), pygame.image.load('sprite/perso/player01-run03-right.png'), pygame.image.load('sprite/perso/player01-run02-right.png'), pygame.image.load('sprite/perso/player01-croisees2.png'), pygame.image.load('sprite/perso/player01-run-right.png')]
+        self.walkLeft = [pygame.image.load('sprite/perso/player01-left.png'), pygame.image.load('sprite/perso/player01-run03.png'), pygame.image.load('sprite/perso/player01-run02.png'), pygame.image.load('sprite/perso/player01-croisees.png'), pygame.image.load('sprite/perso/player01-run.png')]
+        self.char = pygame.image.load('sprite/perso/player01-left.png')
 
     def draw(self, windows):
         if self.walkCount + 1 >= 27:
