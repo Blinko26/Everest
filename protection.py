@@ -13,7 +13,7 @@ class Protection(object):
         self.rounds = 0
 
     def draw(self, windows):
-        if self.rounds + 1 >= 27:
-            self.rounds = 0
-        windows.blit(self.picture[self.rounds//7],  (self.x-15, self.y-15))
-        self.rounds += 1
+        windows.blit(self.picture[0],  (self.x-15, self.y-15))
+        pygame.display.update()
+
+

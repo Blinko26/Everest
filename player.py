@@ -37,10 +37,10 @@ class Player(object):
                 else:
                     windows.blit(self.jumpLeft[0], (self.x, self.y))
             elif self.left:
-                windows.blit(self.walkLeft[self.walkCount //7], (self.x, self.y))
+                windows.blit(self.walkLeft[self.walkCount // 7], (self.x, self.y))
                 self.walkCount += 1
             elif self.right:
-                windows.blit(self.walkRight[self.walkCount //7], (self.x, self.y))
+                windows.blit(self.walkRight[self.walkCount // 7], (self.x, self.y))
                 self.walkCount += 1
 
         else:

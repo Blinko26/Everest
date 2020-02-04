@@ -43,6 +43,7 @@ def drawMenu():
 
     pygame.display.update()
 
+
 while run:
     clock.tick(10)
     for event in pygame.event.get():
