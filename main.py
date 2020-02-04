@@ -121,6 +121,9 @@ def niveau1():
                 man.isJump = False
                 man.jumpCount = 8
 
+        if keys[pygame.K_a]:
+            man.dash(windows)
+
         redrawGameWindow()
 
     pygame.quit()

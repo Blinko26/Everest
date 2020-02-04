@@ -6,15 +6,25 @@ class Player(object):
     def __init__(self, x, y, width, height):
         self.x = x
         self.y = y
+
         self.width = width
         self.height = height
+
         self.vel = 5
+        self.dashVel = 100
+
         self.isJump = False
         self.left = False
         self.right = False
+
+        self.last_dash = pygame.time.get_ticks()
+        self.dash_cooldown = 500
+
         self.all_projectile = pygame.sprite.Group()
+
         self.walkCount = 0
         self.jumpCount = 8
+
         self.standing = True
 
         self.hitbox = (self.x, self.y, 50, 50)
@@ -25,6 +35,8 @@ class Player(object):
         self.jumpRight = [pygame.image.load('sprite/perso/player01-run-right.png')]
         self.charLeft = pygame.image.load('sprite/perso/player01-left.png')
         self.charRight = pygame.image.load('sprite/perso/player01-right.png')
+
+        self.dashImg = pygame.image.load('sprite/dashSprite.png')
 
     def draw(self, windows):
         if self.walkCount + 1 >= 27:
@@ -59,3 +71,30 @@ class Player(object):
         pygame.draw.rect(windows, (255, 0, 0), self.hitbox, 2)
 
         pygame.display.update()
+
+    def dash(self, window):
+        now = pygame.time.get_ticks()
+
+        if now - self.last_dash >= self.dash_cooldown:
+            self.last_dash = now
+
+            if self.right:
+                self.dashImg = pygame.transform.rotate(self.dashImg, 180)
+                window.blit(self.dashImg, (self.x + 10, self.y + 10))
+                self.dashImg = pygame.transform.rotate(self.dashImg, 180)
+                self.x += self.dashVel
+            else:
+                window.blit(self.dashImg, (self.x + 10, self.y + 10))
+                self.x -= self.dashVel
+
+            count_dash = 1
+            while count_dash != 0:
+                if self.right:
+                    self.dashImg = pygame.transform.rotate(self.dashImg, 180)
+                    window.blit(self.dashImg, (self.x - self.dashVel + (self.dashVel / count_dash), self.y + 10))
+                    self.dashImg = pygame.transform.rotate(self.dashImg, 180)
+                else:
+                    window.blit(self.dashImg, (self.x + self.dashVel - (self.dashVel / count_dash), self.y + 10))
+                count_dash += 1
+                if count_dash >= 1000:
+                    count_dash = 0
