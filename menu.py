@@ -47,26 +47,24 @@ while run:
     clock.tick(10)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            print('quit')
             run = False
-
-    keys = pygame.key.get_pressed()
-
-    if keys[pygame.K_DOWN]:
-        print('down')
-        if selector != 3:
-            selector += 1
-    if keys[pygame.K_UP]:
-        print('up')
-        if selector != 1:
-            selector -= 1
-    if keys[pygame.K_SPACE]:
-        print('space')
-        print(selector)
-        if selector == 1:
-            niveau1()
-        if selector ==3:
-            run = False
-
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                print('space')
+                print(selector)
+                if selector == 1:
+                    niveau1()
+                if selector == 3:
+                    run = False
+            if event.key == pygame.K_DOWN:
+                print('down')
+                if selector != 3:
+                    selector += 1
+            if event.key == pygame.K_UP:
+                print('up')
+                if selector != 1:
+                    selector -= 1
     drawMenu()
 
 pygame.quit()
