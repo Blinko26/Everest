@@ -8,7 +8,7 @@ class projectile(object):
         self.radius = radius
         self.color = color
         self.facing = facing
-        self.vel = 8 * facing
+        self.vel = 15 * facing
         self.picture = [pygame.image.load('sprite/Attack/Attack01-left01.png'), pygame.image.load('sprite/Attack/Attack01-left02.png'), pygame.image.load('sprite/Attack/Attack02-left01.png'), pygame.image.load('sprite/Attack/Attack02-left02.png')]
         self.rounds = 0
 

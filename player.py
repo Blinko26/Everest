@@ -11,14 +11,14 @@ class Player(object):
         self.height = height
 
         self.vel = 10
-        self.dashVel = 500
+        self.dashVel = 100
 
         self.isJump = False
         self.left = False
         self.right = False
 
         self.last_dash = pygame.time.get_ticks()
-        self.dash_cooldown = 500
+        self.dash_cooldown = 0
 
         self.all_projectile = pygame.sprite.Group()
 

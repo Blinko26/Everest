@@ -8,12 +8,12 @@ def niveau1():
     from enemy import enemy
     from protection import Protection
     windows = pygame.display.set_mode((1024, 768))
-    pygame.display.set_caption("MyFirstGame")
+    pygame.display.set_caption("DASHLAND")
 
     background = pygame.image.load('sprite/background.png')
 
     x = 50
-    y = 300
+    y = 400
     width = 40
     height = 60
     vel = 5
@@ -44,7 +44,7 @@ def niveau1():
     score = 0
     font = pygame.font.SysFont("comicsans", 30, True)
 
-    man = Player(200, 300, 64, 64)
+    man = Player(x, y, 64, 64)
     vison = enemy(100, 420, 64, 64, 300)
 
     bullets = []
