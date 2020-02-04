@@ -82,10 +82,16 @@ class Player(object):
                 self.dashImg = pygame.transform.rotate(self.dashImg, 180)
                 window.blit(self.dashImg, (self.x + 10, self.y +20))
                 self.dashImg = pygame.transform.rotate(self.dashImg, 180)
-                self.x += self.dashVel
+                if self.x + self.dashVel > window.get_width():
+                    self.x = window.get_width()-self.width-1
+                else:
+                    self.x += self.dashVel
             else:
                 window.blit(self.dashImg, (self.x + 10, self.y + 20))
-                self.x -= self.dashVel
+                if self.x - self.dashVel < 0:
+                    self.x = 1
+                else:
+                    self.x -= self.dashVel
 
             count_dash = 1
             while count_dash != 0:
