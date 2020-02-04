@@ -23,16 +23,21 @@ class player(object):
         self.char = pygame.image.load('sprite/perso/player01-left.png')
 
     def draw(self, windows):
+        i = 0
         if self.walkCount + 1 >= 27:
             self.walkCount = 0
 
         if not (self.standing):
             if self.left:
-                windows.blit(self.walkLeft[0], (self.x, self.y))
-                self.walkCount += 1
+                    windows.blit(self.walkLeft[self.walkCount //6], (self.x, self.y))
+                    pygame.display.update()
+                    self.walkCount += 1
             elif self.right:
-                windows.blit(self.walkRight[0], (self.x, self.y))
-                self.walkCount += 1
+
+                    windows.blit(self.walkRight[self.walkCount //6], (self.x, self.y))
+                    pygame.display.update()
+                    self.walkCount += 1
+
         else:
             windows.blit(self.char, (self.x, self.y))
         self.hitbox = (self.x +10, self.y+5, 30, 35)  # NEW

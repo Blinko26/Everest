@@ -13,7 +13,7 @@ def niveau1():
     background = pygame.image.load('sprite/background.png')
 
     x = 50
-    y = 400
+    y = 300
     width = 40
     height = 60
     vel = 5
@@ -27,13 +27,6 @@ def niveau1():
     right = False
     walkCount = 0
 
-    score = 0
-    font = pygame.font.SysFont("comicsans", 30, True)
-
-    man = player(200, 410, 64, 64)
-    vison = enemy(100, 420, 64, 64, 300)
-    bullets = []
-    run = True
 
     def redrawGameWindow():
         windows.blit(background, (0,0))
@@ -47,6 +40,14 @@ def niveau1():
         windows.blit(text, (390, 10))
 
         pygame.display.update()
+
+    score = 0
+    font = pygame.font.SysFont("comicsans", 30, True)
+
+    man = player(200, 300, 64, 64)
+    vison = enemy(100, 420, 64, 64, 300)
+    bullets = []
+    run = True
 
     while run:
         clock.tick(27)
@@ -110,4 +111,5 @@ def niveau1():
                 man.jumpCount = 8
 
         redrawGameWindow()
+
     pygame.quit()
