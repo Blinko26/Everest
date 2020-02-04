@@ -26,7 +26,6 @@ class player(object):
         self.charRight = pygame.image.load('sprite/perso/player01-right.png')
 
     def draw(self, windows):
-        i = 0
         if self.walkCount + 1 >= 27:
             self.walkCount = 0
 
@@ -55,7 +54,7 @@ class player(object):
                     windows.blit(self.charRight, (self.x, self.y))
                 else:
                     windows.blit(self.charLeft, (self.x, self.y))
-        self.hitbox = (self.x +10, self.y+5, 30, 35)  # NEW
+        self.hitbox = (self.x +10, self.y+5, 20, 90)  # NEW
         pygame.draw.rect(windows, (255, 0, 0), self.hitbox, 2)
 
         pygame.display.update()
