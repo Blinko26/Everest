@@ -3,11 +3,11 @@ def niveau1():
 
     pygame.init()
 
-    from player import player
+    from player import Player
     from projectile import projectile
     from enemy import enemy
-
-    windows = pygame.display.set_mode((500, 500))
+    from protection import Protection
+    windows = pygame.display.set_mode((1024, 768))
     pygame.display.set_caption("MyFirstGame")
 
     background = pygame.image.load('sprite/background.png')
@@ -44,8 +44,9 @@ def niveau1():
     score = 0
     font = pygame.font.SysFont("comicsans", 30, True)
 
-    man = player(200, 300, 64, 64)
+    man = Player(200, 300, 64, 64)
     vison = enemy(100, 420, 64, 64, 300)
+
     bullets = []
     run = True
 
@@ -89,12 +90,21 @@ def niveau1():
             man.right = True
             man.left = False
             man.standing = False  # NEW
+        elif keys[pygame.K_e]:
+            if man.left:
+                facing = -1
+            else:
+                facing = 1
+            protection = Protection(man.x, man.y, 6, facing)
+            protection.draw(windows)
+            pygame.display.update()
+            pygame.time.delay(500)
         else:
 
             man.standing = True  # NEW (removed two lines)
             man.walkCount = 0
 
-        if not (man.isJump):
+        if not man.isJump:
             if keys[pygame.K_UP]:
                 man.isJump = True
                 man.walkCount = 0
