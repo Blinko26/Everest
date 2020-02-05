@@ -45,13 +45,18 @@ player_img = pygame.image.load('sprite/perso/player01-right.png')
 player_img = pygame.transform.scale(player_img,(29,32))
 
 player_img_left = pygame.image.load('sprite/perso/player01-left.png')
-player_img_left = pygame.transform.scale(player_img,(29,32))
+player_img_left = pygame.transform.scale(player_img_left,(29,32))
 
 player_rect = pygame.Rect(100,100,29,32)
+
+dashImg = pygame.image.load('sprite/Dash/dash.png')
+dashImg = pygame.transform.scale(dashImg, (29,32))
 
 background_objects = [[0.25,[120,10,70,400]],[0.25,[280,30,40,400]],[0.5,[30,40,40,400]],[0.5,[130,90,100,400]],[0.5,[300,80,120,400]]]
 
 last_facing = True
+dash_vel = 100
+countDash = 0
 
 def collision_test(rect,tiles):
     hit_list = []
@@ -115,14 +120,14 @@ while True: # game loop
 
     player_movement = [0,0]
     if moving_right == True:
-        player_movement[0] += 2
+        player_movement[0] += 4
     if moving_left == True:
-        player_movement[0] -= 2
+        player_movement[0] -= 4
     if dashing_left:
-        player_movement[0] -= 100
+        player_movement[0] -= dash_vel
         dashing_left = False
     elif dashing_right:
-        player_movement[0] += 100
+        player_movement[0] += dash_vel
         dashing_right = False
     player_movement[1] += vertical_momentum
     vertical_momentum += 0.2
@@ -162,23 +167,32 @@ while True: # game loop
         else:
             display.blit(player_img_left, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
 
-    for event in pygame.event.get(): # event loop
+    for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:
             if event.key == K_RIGHT:
                 moving_right = True
+                moving_left = False
             if event.key == K_LEFT:
                 moving_left = True
-            if event.key == K_UP:
+                moving_right = False
+            if event.key == K_UP or event.key == K_SPACE:
                 if air_timer < 6:
                     vertical_momentum = -5
             if event.key == K_a:
-                if moving_left:
+                if not last_facing:
                     dashing_left = True
+                    countDash = 1
+                    display.blit(dashImg, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
                 else:
                     dashing_right = True
+                    countDash = 1
+                    dashImg = pygame.transform.rotate(dashImg, 180)
+                    display.blit(dashImg, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+                    dashImg = pygame.transform.rotate(dashImg, 180)
+
         if event.type == KEYUP:
             if event.key == K_RIGHT:
                 moving_right = False
@@ -188,6 +202,18 @@ while True: # game loop
     walkCount += 1
     if walkCount >= 27:
         walkCount = 0
+
+    while countDash != 0:
+        if dashing_right:
+            dashImg = pygame.transform.rotate(dashImg, 180)
+            display.blit(player_img, (player_rect.x - scroll[0] + (dash_vel / countDash), player_rect.y - scroll[1]))
+            dashImg = pygame.transform.rotate(dashImg, 180)
+        elif dashing_left:
+            display.blit(player_img_left, (player_rect.x - scroll[0] - (dash_vel / countDash), player_rect.y - scroll[1]))
+
+        countDash += 1
+        if countDash >= 200:
+            countDash = 0
 
     screen.blit(pygame.transform.scale(display,WINDOW_SIZE),(0,0))
     pygame.display.update()
