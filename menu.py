@@ -12,6 +12,8 @@ run = True
 background = pygame.image.load('sprite/spriteMenu/backgroundmenu.png')
 background = pygame.transform.scale(background, (1024, 768))
 
+creditBackground = pygame.image.load('sprite/spriteMenu/credits.png')
+
 titre = pygame.image.load('sprite/spriteMenu/titre.png')
 jouer = pygame.image.load('sprite/spriteMenu/jouer.png')
 jouer = pygame.transform.scale(jouer, (326, 71))
@@ -43,6 +45,18 @@ def drawMenu():
 
     pygame.display.update()
 
+def drawCredits():
+    windows.blit(creditBackground, (0,0))
+    pygame.display.update()
+    exit = False
+    while not(exit):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                print('quit')
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    exit = True
 
 while run:
     clock.tick(10)
@@ -56,6 +70,8 @@ while run:
                 print(selector)
                 if selector == 1:
                     niveau1()
+                if selector == 2:
+                    drawCredits()
                 if selector == 3:
                     run = False
             if event.key == pygame.K_DOWN:
