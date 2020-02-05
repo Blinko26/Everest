@@ -84,13 +84,13 @@ def niveau1():
             if len(bullets) < 1:
                 bullets.append(projectile(round(man.x+man.width//2), round(man.y + man.height//2), 6, (0, 0, 0), facing))
 
-        if keys[pygame.K_LEFT] and man.x > 0:
+        if (keys[pygame.K_LEFT] or keys[pygame.K_q]) and man.x > 0:
             man.x -= man.vel
             man.left = True
             man.right = False
             man.standing = False  # NEW
             man.attacking = False
-        elif keys[pygame.K_RIGHT] and man.x < windows.get_width() - man.width:
+        elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and man.x < windows.get_width() - man.width:
             man.x += man.vel
             man.right = True
             man.left = False
