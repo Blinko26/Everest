@@ -10,16 +10,16 @@ class Player(object):
         self.width = width
         self.height = height
 
-        self.vel = 10
-        self.dashVel = 100
+        self.vel = 75
+        self.dashVel = 200
 
         self.isJump = False
         self.left = False
-        self.right = False
+        self.right = True
         self.attacking = False
 
         self.last_dash = pygame.time.get_ticks()
-        self.dash_cooldown = 0
+        self.dash_cooldown = 500
 
         self.all_projectile = pygame.sprite.Group()
 
@@ -107,7 +107,7 @@ class Player(object):
 
             if self.right:
                 self.dashImg = pygame.transform.rotate(self.dashImg, 180)
-                window.blit(self.dashImg, (self.x + 10, self.y +20))
+                window.blit(self.dashImg, (self.x - 10, self.y))
                 self.dashImg = pygame.transform.rotate(self.dashImg, 180)
                 if self.x + self.dashVel > window.get_width():
                     self.x = window.get_width()-self.width-1
@@ -124,10 +124,10 @@ class Player(object):
             while count_dash != 0:
                 if self.right:
                     self.dashImg = pygame.transform.rotate(self.dashImg, 180)
-                    window.blit(self.dashImg, (self.x - self.dashVel + (self.dashVel / count_dash), self.y + 20))
+                    window.blit(self.dashImg, (self.x - self.dashVel - (self.dashVel / count_dash), self.y))
                     self.dashImg = pygame.transform.rotate(self.dashImg, 180)
                 else:
-                    window.blit(self.dashImg, (self.x + self.dashVel - (self.dashVel / count_dash), self.y + 20))
+                    window.blit(self.dashImg, (self.x + self.dashVel - (self.dashVel / count_dash), self.y))
                 count_dash += 1
                 if count_dash >= 20:
                     count_dash = 0

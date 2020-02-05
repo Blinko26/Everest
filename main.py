@@ -53,7 +53,7 @@ def niveau1():
     run = True
 
     while run:
-        clock.tick(27)
+        clock.tick(60)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -96,8 +96,12 @@ def niveau1():
             man.left = False
             man.standing = False  # NEW
             man.attacking = False
-        elif keys[pygame.K_e]:
+        else:
+            man.standing = True
+
+        if keys[pygame.K_e]:
             protection.active = True
+            man.vel = 5
         else:
             protection.active = False
             man.standing = True  # NEW (removed two lines)
@@ -113,16 +117,18 @@ def niveau1():
                 neg = 1
                 if man.jumpCount < 0:
                     neg = -1
-                man.y -= (man.jumpCount ** 2) * 0.5 * neg
+                man.y -= (man.jumpCount ** 2) * 1 * neg
                 man.jumpCount -= 1
 
             else:
                 man.isJump = False
                 man.jumpCount = 8
 
-        if keys[pygame.K_a]:
-            man.attacking = False
-            man.dash(windows)
+        if not protection.active:
+            man.vel = 20
+            if keys[pygame.K_a]:
+                man.attacking = False
+                man.dash(windows)
 
 
         redrawGameWindow()

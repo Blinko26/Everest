@@ -21,8 +21,3 @@ class Protection(object):
             windows.blit(self.picture[self.rounds // 9], (x - 15, y - 15))
             pygame.display.update()
             self.rounds += 1
-            self.cooldown -= 1
-        else:
-            self.cooldown = 1000
-
-
