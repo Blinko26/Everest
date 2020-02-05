@@ -10,7 +10,7 @@ class Player(object):
         self.width = width
         self.height = height
 
-        self.vel = 75
+        self.vel = 50
         self.dashVel = 200
 
         self.isJump = False
