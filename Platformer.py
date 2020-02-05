@@ -3,9 +3,6 @@ from pygame.locals import *
 pygame.init() # initiates pygame
 clock = pygame.time.Clock()
 
-
-
-
 pygame.display.set_caption('Pygame Platformer')
 
 WINDOW_SIZE = (1024,768)
@@ -21,7 +18,7 @@ air_timer = 0
 
 walkCount = 0
 
-true_scroll = [0,0]
+true_scroll = [0, 0]
 
 dashing_left = False
 dashing_right = True
@@ -40,6 +37,7 @@ game_map = load_map('map')
 
 grass_img = pygame.image.load('grass.png')
 dirt_img = pygame.image.load('dirt.png')
+finish_img = pygame.image.load('finishLine.png')
 
 player_img = pygame.image.load('sprite/perso/player01-right.png')
 player_img = pygame.transform.scale(player_img,(29,32))
@@ -49,7 +47,7 @@ player_img_left = pygame.transform.scale(player_img_left,(29,32))
 
 player_rect = pygame.Rect(100,100,29,32)
 
-dashImg = pygame.image.load('sprite/Dash/dash.png')
+dashImg = pygame.image.load('sprite/Dash/BLBLBLBL.png')
 dashImg = pygame.transform.scale(dashImg, (29,32))
 
 background_objects = [[0.25,[120,10,70,400]],[0.25,[280,30,40,400]],[0.5,[30,40,40,400]],[0.5,[130,90,100,400]],[0.5,[300,80,120,400]]]
@@ -110,9 +108,11 @@ while True: # game loop
         x = 0
         for tile in layer:
             if tile == '1':
-                display.blit(dirt_img,(x*16-scroll[0],y*16-scroll[1]))
+                display.blit(dirt_img, (x*16-scroll[0], y*16-scroll[1]))
             if tile == '2':
-                display.blit(grass_img,(x*16-scroll[0],y*16-scroll[1]))
+                display.blit(grass_img, (x*16-scroll[0], y*16-scroll[1]))
+            if tile == 'f':
+                display.blit(finish_img, (x*16-scroll[0], y*16-scroll[1]))
             if tile != '0':
                 tile_rects.append(pygame.Rect(x*16,y*16,16,16))
             x += 1
