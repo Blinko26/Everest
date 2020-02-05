@@ -122,16 +122,16 @@ while True: # game loop
                 for ennemi in ennemies:
                     ennemi.draw(display)
             if tile != '0':
-                tile_rects.append(pygame.Rect(x*16,y*16,16,16))
+                tile_rects.append(pygame.Rect(x*16, y*16, 16, 16))
             x += 1
         y += 1
 
     jumping_img = [pygame.transform.scale(pygame.image.load('sprite/perso/player01-run.png'), (29, 32)),
                    pygame.transform.scale(pygame.image.load('sprite/perso/player01-run-right.png'), (29, 32))]
     player_movement = [0, 0]
-    if moving_right == True:
+    if moving_right:
         player_movement[0] += 4
-    if moving_left == True:
+    if moving_left:
         player_movement[0] -= 4
     if dashing_left:
         player_movement[0] -= dash_vel
