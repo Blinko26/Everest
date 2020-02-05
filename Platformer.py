@@ -1,5 +1,6 @@
 import pygame, sys
 from pygame.locals import *
+from enemy import *
 pygame.init() # initiates pygame
 clock = pygame.time.Clock()
 
@@ -9,7 +10,7 @@ WINDOW_SIZE = (1024,768)
 
 screen = pygame.display.set_mode(WINDOW_SIZE,0,32) # initiate the window
 
-display = pygame.Surface((300,200)) # used as the surface for rendering, which is scaled
+display = pygame.Surface((300, 200)) # used as the surface for rendering, which is scaled
 
 moving_right = False
 moving_left = False
@@ -103,6 +104,7 @@ while True: # game loop
             pygame.draw.rect(display,(9,91,85),obj_rect)
 
     tile_rects = []
+    ennemies = []
     y = 0
     for layer in game_map:
         x = 0
@@ -113,12 +115,20 @@ while True: # game loop
                 display.blit(grass_img, (x*16-scroll[0], y*16-scroll[1]))
             if tile == 'f':
                 display.blit(finish_img, (x*16-scroll[0], y*16-scroll[1]))
+            if tile == 'e':
+                mechant = enemy(x * 16 - scroll[0], y + 50 - scroll[1], 29, 32, x - 3)
+                ennemies.append(mechant)
+                enemy_atk_img = pygame.image.load('enemy01-attack.png')
+                for ennemi in ennemies:
+                    ennemi.draw(display)
             if tile != '0':
                 tile_rects.append(pygame.Rect(x*16,y*16,16,16))
             x += 1
         y += 1
 
-    player_movement = [0,0]
+    jumping_img = [pygame.transform.scale(pygame.image.load('sprite/perso/player01-run.png'), (29, 32)),
+                   pygame.transform.scale(pygame.image.load('sprite/perso/player01-run-right.png'), (29, 32))]
+    player_movement = [0, 0]
     if moving_right == True:
         player_movement[0] += 4
     if moving_left == True:
@@ -131,10 +141,9 @@ while True: # game loop
         dashing_right = False
     player_movement[1] += vertical_momentum
     vertical_momentum += 0.2
-    if vertical_momentum > 3:
-        vertical_momentum = 3
 
-    player_rect,collisions = move(player_rect,player_movement,tile_rects)
+
+    player_rect, collisions = move(player_rect, player_movement, tile_rects)
 
     if collisions['bottom'] == True:
         air_timer = 0
@@ -152,8 +161,7 @@ while True: # game loop
                          pygame.transform.scale(pygame.image.load('sprite/perso/player01-run02.png'), (29,32)),
                          pygame.transform.scale(pygame.image.load('sprite/perso/player01-run04-left.png'), (29,32))]
 
-    jumping_img = [pygame.transform.scale(pygame.image.load('sprite/perso/player01-run.png'), (29, 32)),
-                   pygame.transform.scale(pygame.image.load('sprite/perso/player01-run-right.png'), (29,32))]
+
 
     if moving_right:
         last_facing = True
@@ -161,11 +169,18 @@ while True: # game loop
     elif moving_left:
         last_facing = False
         display.blit(moving_left_img[walkCount // 7], (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+    elif vertical_momentum > 3:
+        if last_facing:
+            display.blit(jumping_img[1], (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+        else:
+            display.blit(jumping_img[0], (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+        vertical_momentum = 3
     else:
         if last_facing:
             display.blit(player_img, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
         else:
             display.blit(player_img_left, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+
 
     for event in pygame.event.get():
         if event.type == QUIT:
