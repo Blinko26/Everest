@@ -106,10 +106,10 @@ class Player(object):
         #pygame.draw.rect(windows, (255, 0, 0), self.hitbox, 2)
         font = pygame.font.SysFont("comicsans", 30, True)
         text = font.render("Health: ",1, (0, 0, 0))  # Arguments are: text, anti-aliasing, color
-        windows.blit(text, (0, 30))
-        pygame.draw.rect(windows, (255, 0, 0), (100, 30, 50 - (5 * (10 - 20)), 10))
+        windows.blit(text, (20, 26))
+        pygame.draw.rect(windows, (255, 0, 0), (120, 30, 50 - (5 * (10 - 20)), 10))
         pygame.draw.rect(windows, (0, 128, 0),
-                         (100, 30, 50 - (5 * (10 - self.health)), 10))
+                         (120, 30, 50 - (5 * (10 - self.health)), 10))
         pygame.display.update()
 
     def dash(self, window):
