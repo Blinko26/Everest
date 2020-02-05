@@ -32,7 +32,7 @@ class enemy(object):
                 windows.blit(self.walkLeft[0], (self.x, self.y))
                 self.walkCount += 1
             self.hitbox = (self.x, self.y, 60, 30)
-            pygame.draw.rect(windows, (255, 0, 0), self.hitbox, 2)
+            #pygame.draw.rect(windows, (255, 0, 0), self.hitbox, 2)
 
             pygame.draw.rect(windows, (255, 0, 0), (self.hitbox[0], self.hitbox[1] - 20, 50, 10))
             pygame.draw.rect(windows, (0, 128, 0),
