@@ -1,6 +1,7 @@
 import pygame
 from main import niveau1
 pygame.init()
+pygame.mixer.init()
 
 height = 768
 width = 1024
@@ -11,6 +12,9 @@ clock = pygame.time.Clock()
 run = True
 background = pygame.image.load('sprite/spriteMenu/backgroundmenu.png')
 background = pygame.transform.scale(background, (1024, 768))
+
+pygame.mixer.music.load("Sounds/AHJ.ogg")
+pygame.mixer.music.play(loops=1)
 
 creditBackground = pygame.image.load('sprite/spriteMenu/credits.png')
 
@@ -63,16 +67,19 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             print('quit')
+            pygame.mixer.music.stop()
             run = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                 print('space')
                 print(selector)
                 if selector == 1:
+                    pygame.mixer.music.stop()
                     niveau1()
                 if selector == 2:
                     drawCredits()
                 if selector == 3:
+                    pygame.mixer.music.stop()
                     run = False
             if event.key == pygame.K_DOWN:
                 print('down')
