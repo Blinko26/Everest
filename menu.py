@@ -16,7 +16,7 @@ background = pygame.transform.scale(background, (1024, 768))
 pygame.mixer.music.load("Sounds/AHJ.ogg")
 pygame.mixer.music.play(loops=1)
 
-creditBackground = pygame.image.load('sprite/spriteMenu/credits.png')
+creditBackground = pygame.image.load('sprite/spriteMenu/creditsBackground.png')
 
 titre = pygame.image.load('sprite/spriteMenu/titre.png')
 jouer = pygame.image.load('sprite/spriteMenu/jouer.png')
