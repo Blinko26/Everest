@@ -10,7 +10,7 @@ WINDOW_SIZE = (1024,768)
 
 screen = pygame.display.set_mode(WINDOW_SIZE,0,32) # initiate the window
 
-display = pygame.Surface((300, 200)) # used as the surface for rendering, which is scaled
+display = pygame.Surface((600, 400)) # used as the surface for rendering, which is scaled
 
 moving_right = False
 moving_left = False
@@ -116,16 +116,15 @@ while True: # game loop
             if tile == 'f':
                 display.blit(finish_img, (x*16-scroll[0], y*16-scroll[1]))
             if tile == 'e':
-                mechant = enemy(x * 16 - scroll[0], y + 50 - scroll[1], 29, 32, x - 3)
+                mechant = enemy(x * 16 - scroll[0], y + 65 - scroll[1], 29, 32, x - 25)
                 ennemies.append(mechant)
                 enemy_atk_img = pygame.image.load('enemy01-attack.png')
-                for ennemi in ennemies:
-                    ennemi.draw(display)
             if tile != '0':
                 tile_rects.append(pygame.Rect(x*16, y*16, 16, 16))
             x += 1
         y += 1
-
+    for ennemi in ennemies:
+        ennemi.draw(display)
     jumping_img = [pygame.transform.scale(pygame.image.load('sprite/perso/player01-run.png'), (29, 32)),
                    pygame.transform.scale(pygame.image.load('sprite/perso/player01-run-right.png'), (29, 32))]
     player_movement = [0, 0]
