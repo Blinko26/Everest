@@ -19,7 +19,12 @@ moving_left = False
 vertical_momentum = 0
 air_timer = 0
 
+walkCount = 0
+
 true_scroll = [0,0]
+
+dashing_left = False
+dashing_right = True
 
 def load_map(path):
     f = open(path + '.txt','r')
@@ -39,9 +44,14 @@ dirt_img = pygame.image.load('dirt.png')
 player_img = pygame.image.load('sprite/perso/player01-right.png')
 player_img = pygame.transform.scale(player_img,(29,32))
 
+player_img_left = pygame.image.load('sprite/perso/player01-left.png')
+player_img_left = pygame.transform.scale(player_img,(29,32))
+
 player_rect = pygame.Rect(100,100,29,32)
 
 background_objects = [[0.25,[120,10,70,400]],[0.25,[280,30,40,400]],[0.5,[30,40,40,400]],[0.5,[130,90,100,400]],[0.5,[300,80,120,400]]]
+
+last_facing = True
 
 def collision_test(rect,tiles):
     hit_list = []
@@ -108,6 +118,12 @@ while True: # game loop
         player_movement[0] += 2
     if moving_left == True:
         player_movement[0] -= 2
+    if dashing_left:
+        player_movement[0] -= 100
+        dashing_left = False
+    elif dashing_right:
+        player_movement[0] += 100
+        dashing_right = False
     player_movement[1] += vertical_momentum
     vertical_momentum += 0.2
     if vertical_momentum > 3:
@@ -121,8 +137,30 @@ while True: # game loop
     else:
         air_timer += 1
 
-    display.blit(player_img,(player_rect.x-scroll[0],player_rect.y-scroll[1]))
+    moving_right_img = [pygame.transform.scale(pygame.image.load('sprite/perso/player01-right.png'), (29,32)),
+                          pygame.transform.scale(pygame.image.load('sprite/perso/player01-run03-right.png'), (29,32)),
+                          pygame.transform.scale(pygame.image.load('sprite/perso/player01-run02-right.png'), (29,32)),
+                          pygame.transform.scale(pygame.image.load('sprite/perso/player01-run04-right.png'), (29,32))]
 
+    moving_left_img = [pygame.transform.scale(pygame.image.load('sprite/perso/player01-left.png'), (29, 32)),
+                         pygame.transform.scale(pygame.image.load('sprite/perso/player01-run03.png'), (29,32)),
+                         pygame.transform.scale(pygame.image.load('sprite/perso/player01-run02.png'), (29,32)),
+                         pygame.transform.scale(pygame.image.load('sprite/perso/player01-run04-left.png'), (29,32))]
+
+    jumping_img = [pygame.transform.scale(pygame.image.load('sprite/perso/player01-run.png'), (29, 32)),
+                   pygame.transform.scale(pygame.image.load('sprite/perso/player01-run-right.png'), (29,32))]
+
+    if moving_right:
+        last_facing = True
+        display.blit(moving_right_img[walkCount // 7],(player_rect.x-scroll[0],player_rect.y-scroll[1]))
+    elif moving_left:
+        last_facing = False
+        display.blit(moving_left_img[walkCount // 7], (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+    else:
+        if last_facing:
+            display.blit(player_img, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+        else:
+            display.blit(player_img_left, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
 
     for event in pygame.event.get(): # event loop
         if event.type == QUIT:
@@ -136,12 +174,21 @@ while True: # game loop
             if event.key == K_UP:
                 if air_timer < 6:
                     vertical_momentum = -5
+            if event.key == K_a:
+                if moving_left:
+                    dashing_left = True
+                else:
+                    dashing_right = True
         if event.type == KEYUP:
             if event.key == K_RIGHT:
                 moving_right = False
             if event.key == K_LEFT:
                 moving_left = False
-        
+
+    walkCount += 1
+    if walkCount >= 27:
+        walkCount = 0
+
     screen.blit(pygame.transform.scale(display,WINDOW_SIZE),(0,0))
     pygame.display.update()
     clock.tick(60)
