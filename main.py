@@ -13,21 +13,13 @@ def niveau1():
     background = pygame.image.load('sprite/background.png')
     background = pygame.transform.scale(background, (1024, 768))
 
+    background_mort = pygame.image.load('sprite/background_mort.png')
+    background = pygame.transform.scale(background, (1024, 768))
     x = 50
     y = 400
-    width = 40
-    height = 60
-    vel = 5
-
     clock = pygame.time.Clock()
 
-    isJump = False
-    jumpCount = 10
-
-    left = False
-    right = False
-    walkCount = 0
-
+    timer_degats = 2000
 
     def redrawGameWindow():
         windows.blit(background, (0,0))
@@ -71,11 +63,15 @@ def niveau1():
             else:
                 bullets.pop(bullets.index(bullet))
 
+        #Regarde si le player touche l'ennemie et donne des dégats en contrepartis
+        if man.y - man.width < vison.hitbox[1] + vison.hitbox[3] and man.y + man.height > vison.hitbox[
+            1]:  # Checks x coords
+            if man.x + man.width > vison.hitbox[0] and man.x - man.height < vison.hitbox[0] + vison.hitbox[2]:  # Checks y coords
+                man.hit()  # calls enemy hit method
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_SPACE]:
             man.attacking = True
-            man.attack(windows)
             if man.left:
                 facing = -1
             else:
@@ -104,7 +100,7 @@ def niveau1():
             man.vel = 5
         else:
             protection.active = False
-            man.standing = True  # NEW (removed two lines)
+            man.standing = True
             #man.walkCount = 0
 
         if not man.isJump:
@@ -125,12 +121,14 @@ def niveau1():
                 man.jumpCount = 8
 
         if not protection.active:
-            man.vel = 20
+            man.vel = man.velBase
             if keys[pygame.K_a]:
                 man.attacking = False
                 man.dash(windows)
-
-
-        redrawGameWindow()
+        if (man.health <= 0):
+            windows.blit(background_mort, (0, 0))
+            pygame.display.update()
+        else:
+            redrawGameWindow()
 
     pygame.quit()

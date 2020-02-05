@@ -9,8 +9,8 @@ class Player(object):
 
         self.width = width
         self.height = height
-
-        self.vel = 50
+        self.velBase = 10
+        self.vel = self.velBase
         self.dashVel = 200
 
         self.isJump = False
@@ -29,6 +29,11 @@ class Player(object):
         self.standing = True
 
         self.hitbox = (self.x, self.y, 50, 50)
+
+        self.health = 20
+
+        self.degatCooldown = 2000
+        self.last_hit = pygame.time.get_ticks()
 
      # Animation Marche
         self.walkRight = [pygame.image.load('sprite/perso/player01-right.png'),
@@ -94,9 +99,17 @@ class Player(object):
                     windows.blit(self.charRight, (self.x, self.y))
                 else:
                     windows.blit(self.charLeft, (self.x, self.y))
-        self.hitbox = (self.x + 10, self.y + 5, 20, 90)  # NEW
-        pygame.draw.rect(windows, (255, 0, 0), self.hitbox, 2)
 
+
+
+        self.hitbox = (self.x, self.y, 60, 64)
+        #pygame.draw.rect(windows, (255, 0, 0), self.hitbox, 2)
+        font = pygame.font.SysFont("comicsans", 30, True)
+        text = font.render("Health: ",1, (0, 0, 0))  # Arguments are: text, anti-aliasing, color
+        windows.blit(text, (0, 30))
+        pygame.draw.rect(windows, (255, 0, 0), (100, 30, 50 - (5 * (10 - 20)), 10))
+        pygame.draw.rect(windows, (0, 128, 0),
+                         (100, 30, 50 - (5 * (10 - self.health)), 10))
         pygame.display.update()
 
     def dash(self, window):
@@ -133,8 +146,20 @@ class Player(object):
                     count_dash = 0
                 pygame.display.update()
 
+    def hit(self):
+        now = pygame.time.get_ticks()
+        print(now - self.last_hit)
+        if now - self.last_hit >= self.degatCooldown:
+            self.last_hit = pygame.time.get_ticks()
+            if self.health > 0:
+                self.health -= 5
+                print('hit')
+            else:
+                self.visible = False
+                self.hitbox = (-10000, -10000, -10000, -100000)
+        else:
+            print('recharge')
+        pygame.display.update()
 
-    def attack(self, window):
-        print("test")
 
 
