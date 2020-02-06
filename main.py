@@ -4,7 +4,7 @@ def niveau1():
     pygame.init()
 
     from player import Player
-    from projectile import projectile
+    from projectile_old import projectile
     from enemy import enemy
     from protection import Protection
     windows = pygame.display.set_mode((1024, 768))

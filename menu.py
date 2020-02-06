@@ -1,5 +1,6 @@
 import pygame
-from main import niveau1
+
+from choixNiveau import choixNiveau
 pygame.init()
 pygame.mixer.init()
 
@@ -28,7 +29,12 @@ quitter = pygame.transform.scale(quitter, (326, 71))
 selection = pygame.image.load('sprite/spriteMenu/selection.png')
 selection = pygame.transform.scale(selection, (41, 71))
 
+
+
 selector = 1
+
+choixNiveauB = False
+
 placement = 280
 
 def drawMenu():
@@ -62,6 +68,9 @@ def drawCredits():
                 if event.key == pygame.K_ESCAPE:
                     exit = True
 
+
+
+
 while run:
     clock.tick(10)
     for event in pygame.event.get():
@@ -75,7 +84,7 @@ while run:
                 print(selector)
                 if selector == 1:
                     pygame.mixer.music.stop()
-                    niveau1()
+                    choixNiveau(windows)
                 if selector == 2:
                     drawCredits()
                 if selector == 3:
@@ -89,6 +98,6 @@ while run:
                 print('up')
                 if selector != 1:
                     selector -= 1
-    drawMenu()
+        drawMenu()
 
 pygame.quit()
