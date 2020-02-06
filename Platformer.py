@@ -8,6 +8,7 @@ def niveau2(screen, nbNiveau):
 
 
     pygame.init() # initiates pygame
+
     clock = pygame.time.Clock()
 
     pygame.display.set_caption('Pygame Platformer')
@@ -26,7 +27,6 @@ def niveau2(screen, nbNiveau):
     walkCount = 0
 
     true_scroll = [0, 0]
-    zoneVictoire = []
 
     dashing_left = False
     dashing_right = True
@@ -70,11 +70,7 @@ def niveau2(screen, nbNiveau):
     dashImg = pygame.image.load('sprite/Dash/BLBLBLBL.png')
     dashImg = pygame.transform.scale(dashImg, (29,32))
 
-    ile_image = pygame.image.load('sprite/Map/iles.png')
-    cloud = pygame.image.load('sprite/Map/nuages-01.png')
-
-    background_objects = [[0.25,[120,10,70,400]],[0.5,[30,40,40,400]]]
-    #background_objects = [ile_image,[0.25,[280,30,40,400]],[0.5,[30,40,40,400]],[0.5,[130,90,100,400]],[0.5,[300,80,120,400]]]
+    background_objects = [[0.25,[120,10,70,400]],[0.25,[280,30,40,400]],[0.5,[30,40,40,400]],[0.5,[130,90,100,400]],[0.5,[300,80,120,400]]]
 
     last_facing = True
     dash_vel = 100
@@ -122,14 +118,13 @@ def niveau2(screen, nbNiveau):
         scroll[0] = int(scroll[0])
         scroll[1] = int(scroll[1])
 
-        #display.blit(ile_image,(150,150))
+        pygame.draw.rect(display,(7,80,75),pygame.Rect(0,120,300,80))
         for background_object in background_objects:
-            obj_rect = pygame.Rect(background_object[1][0]-scroll[0]*background_object[0], background_object[1][1]-scroll[1]*background_object[0], background_object[1][2], background_object[1][3])
+            obj_rect = pygame.Rect(background_object[1][0]-scroll[0]*background_object[0],background_object[1][1]-scroll[1]*background_object[0],background_object[1][2],background_object[1][3])
             if background_object[0] == 0.5:
-                display.blit(cloud, obj_rect)
+                pygame.draw.rect(display,(14,222,150),obj_rect)
             else:
-               display.blit(ile_image, obj_rect)
-
+                pygame.draw.rect(display,(9,91,85),obj_rect)
 
         tile_rects = []
         ennemies = []
@@ -147,7 +142,6 @@ def niveau2(screen, nbNiveau):
                     display.blit(grassEdgeRight_img, (x * 16 - scroll[0], y * 16 - scroll[1]))
                 if tile == 'f':
                     display.blit(finish_img, (x*16-scroll[0], y*16-scroll[1]))
-                    zoneVictoire.append((x*16-scroll[0], y*16-scroll[1]))
                 if tile == 'e':
                     mechant = enemy(x * 16 - scroll[0], y + 65 - scroll[1], 29, 32, x - 25)
                     ennemies.append(mechant)
@@ -285,13 +279,6 @@ def niveau2(screen, nbNiveau):
             countDash += 1
             if countDash >= 200:
                 countDash = 0
-
-        if player_rect.x > zoneVictoire[0][0] and player_rect.x < zoneVictoire[2][0]:
-            print('VICTOIRE')
-            run = False
-
-
-
 
         screen.blit(pygame.transform.scale(display,WINDOW_SIZE),(0,0))
         pygame.display.update()

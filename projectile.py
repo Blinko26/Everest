@@ -15,14 +15,20 @@ class Projectile(pygame.sprite.Sprite):
         self.angle = 0
         self.scale = 1
 
-    def move(self, scroll):
+    def move(self, scroll, vm):
+        if self.scroll[0] != scroll[0]:
+            self.rect.x += self.scroll[0] - scroll[0]
+            self.scroll[0] = scroll[0]
         self.rect.x += self.vel
-        if self.scroll[1] != scroll[1]:
-            self.rect.y += self.scroll[1]-scroll[1]
-            self.scroll = scroll
+        if self.scroll[1] != scroll[1] or vm != 0:
+            self.rect.y += self.scroll[1] - scroll[1]
+            self.scroll[1] = scroll[1]
 
-    def move_left(self, scroll):
+    def move_left(self, scroll, vm):
+        if self.scroll[0] != scroll[0]:
+            self.rect.x += self.scroll[0] - scroll[0]
+            self.scroll[0] = scroll[0]
         self.rect.x -= self.vel
-        if self.scroll[1] != scroll[1]:
+        if self.scroll[1] != scroll[1] or vm != 0:
             self.rect.y += self.scroll[1]-scroll[1]
-            self.scroll = scroll
+            self.scroll[1] = scroll[1]

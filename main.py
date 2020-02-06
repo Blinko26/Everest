@@ -5,7 +5,7 @@ def niveau1():
 
     from player import Player
     from projectile_old import projectile
-    from enemy import enemy
+    from enemy_old import Enemy_old
     from protection import Protection
     windows = pygame.display.set_mode((1024, 768))
     pygame.display.set_caption("DASHLAND")
@@ -38,7 +38,7 @@ def niveau1():
     font = pygame.font.SysFont("comicsans", 30, True)
 
     man = Player(x, y, 64, 64)
-    vison = enemy(100, 420, 64, 64, 300)
+    vison = enemy(100, 440, 64, 64, 300)
 
     bullets = []
     protection = Protection(round(man.x+man.width//2), round(man.y + man.height//2), 6, 1)
