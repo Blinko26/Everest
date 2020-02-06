@@ -148,17 +148,13 @@ class Player(object):
 
     def hit(self):
         now = pygame.time.get_ticks()
-        print(now - self.last_hit)
         if now - self.last_hit >= self.degatCooldown:
             self.last_hit = pygame.time.get_ticks()
             if self.health > 0:
                 self.health -= 5
-                print('hit')
             else:
                 self.visible = False
                 self.hitbox = (-10000, -10000, -10000, -100000)
-        else:
-            print('recharge')
         pygame.display.update()
 
 

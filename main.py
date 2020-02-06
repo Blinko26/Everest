@@ -38,7 +38,7 @@ def niveau1():
     font = pygame.font.SysFont("comicsans", 30, True)
 
     man = Player(x, y, 64, 64)
-    vison = enemy(100, 440, 64, 64, 300)
+    vison = Enemy_old(100, 440, 64, 64, 300)
 
     bullets = []
     protection = Protection(round(man.x+man.width//2), round(man.y + man.height//2), 6, 1)
@@ -79,7 +79,8 @@ def niveau1():
 
             if len(bullets) < 1:
                 bullets.append(projectile(round(man.x+man.width//2), round(man.y + man.height//2), 18, (0, 0, 0), facing))
-
+        if keys[pygame.K_ESCAPE]:
+            run = False
         if (keys[pygame.K_LEFT] or keys[pygame.K_q]) and man.x > 0:
             man.x -= man.vel
             man.left = True
@@ -130,5 +131,3 @@ def niveau1():
             pygame.display.update()
         else:
             redrawGameWindow()
-
-    pygame.quit()

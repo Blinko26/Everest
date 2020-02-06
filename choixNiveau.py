@@ -3,17 +3,12 @@ def choixNiveau(windows):
     pygame.init()
     pygame.mixer.init()
 
-    clock = pygame.time.Clock()
-    run = True
     from main import niveau1
     from Platformer import niveau2
     background = pygame.image.load('sprite/spriteMenu/backgroundmenu.png')
     background = pygame.transform.scale(background, (1024, 768))
 
     #choix niveau
-    jouer = pygame.image.load('sprite/spriteMenu/jouer.png')
-    jouer = pygame.transform.scale(jouer, (326, 71))
-
     demo = pygame.image.load('sprite/spriteMenu/demo.png')
     demo = pygame.transform.scale(demo, (326, 71))
 
@@ -32,14 +27,15 @@ def choixNiveau(windows):
     selection = pygame.image.load('sprite/spriteMenu/selection.png')
     selection = pygame.transform.scale(selection, (41, 71))
 
+    ChoixDuniveau = pygame.image.load('sprite/spriteMenu/Choix.png')
+    ChoixDuniveau = pygame.transform.scale(ChoixDuniveau, (652, 142))
+
     selector = 1
-
-    choixNiveauB = False
-
-    placement = 280
 
     def drawChoixNiveau():
         windows.blit(background, (0, 0))
+        windows.blit(ChoixDuniveau, (180, 55))
+
         windows.blit(demo,(349,280))
         windows.blit(niveau1bouton, (349, 380))
         windows.blit(niveau2bouton, (349, 480))
@@ -69,8 +65,6 @@ def choixNiveau(windows):
                 runChoix = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                    print('space')
-                    print(selector)
                     if selector == 1:
                         pygame.mixer.music.stop()
                         pygame.mixer.music.load('Sounds/AHJ.ogg')
@@ -92,11 +86,9 @@ def choixNiveau(windows):
                         pygame.mixer.music.stop()
                         runChoix = False
                 if event.key == pygame.K_DOWN:
-                    print('down')
                     if selector != 5:
                         selector += 1
                 if event.key == pygame.K_UP:
-                    print('up')
                     if selector != 1:
                         selector -= 1
             drawChoixNiveau()

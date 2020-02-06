@@ -17,9 +17,14 @@ background = pygame.transform.scale(background, (1024, 768))
 pygame.mixer.music.load("Sounds/CelestialEntities.ogg")
 pygame.mixer.music.play(loops=1)
 
+boutonVide = pygame.image.load('sprite/spriteMenu/bouton-01.png')
+boutonVide = pygame.transform.scale(boutonVide, (652, 142))
+
 creditBackground = pygame.image.load('sprite/spriteMenu/creditsBackground.png')
 
-titre = pygame.image.load('sprite/spriteMenu/titre.png')
+titre1 = pygame.image.load('sprite/spriteMenu/RIA.png')
+titre2 = pygame.image.load('sprite/spriteMenu/titre2.png')
+
 jouer = pygame.image.load('sprite/spriteMenu/jouer.png')
 jouer = pygame.transform.scale(jouer, (326, 71))
 credits = pygame.image.load('sprite/spriteMenu/credits.png')
@@ -39,7 +44,11 @@ placement = 280
 
 def drawMenu():
     windows.blit(background, (0,0))
-    windows.blit(titre,(186,80))
+    #titre
+    windows.blit(boutonVide, (180, 55))
+    windows.blit(titre1,(221,80))
+    windows.blit(titre2, (420, 85))
+    #fin titre
     windows.blit(jouer, (349, 280))
     windows.blit(credits, (349, 380))
     windows.blit(quitter, (349, 480))
@@ -57,13 +66,14 @@ def drawMenu():
 
 def drawCredits():
     windows.blit(creditBackground, (0,0))
-    windows.blit(titre, (186, 80))
+    windows.blit(boutonVide, (180, 55))
+    windows.blit(titre1, (221, 80))
+    windows.blit(titre2, (420, 85))
     pygame.display.update()
     exit = False
     while not(exit):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                print('quit')
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -76,13 +86,10 @@ while run:
     clock.tick(10)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            print('quit')
             pygame.mixer.music.stop()
             run = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                print('space')
-                print(selector)
                 if selector == 1:
                     choixNiveau(windows)
                 if selector == 2:
@@ -91,11 +98,9 @@ while run:
                     pygame.mixer.music.stop()
                     run = False
             if event.key == pygame.K_DOWN:
-                print('down')
                 if selector != 3:
                     selector += 1
             if event.key == pygame.K_UP:
-                print('up')
                 if selector != 1:
                     selector -= 1
         drawMenu()

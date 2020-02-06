@@ -304,11 +304,12 @@ def niveau2(screen, nbNiveau):
                 countDash = 0
 
         if player_rect.x > zoneVictoire[0][0] and player_rect.x < zoneVictoire[2][0]:
-            print('VICTOIRE')
             run = False
             fin_jeu =  pygame.time.get_ticks() - debut_jeu
-            print(fin_jeu)
-            #ecranInterNiveau(screen,fin_jeu)
+            f = open('highScore/highScore' + nbNiveau + '.txt', 'a')
+            f.write("\n"+str(fin_jeu))
+            f.close()
+            ecranInterNiveau(screen,fin_jeu, nbNiveau)
 
         screen.blit(pygame.transform.scale(display,WINDOW_SIZE),(0,0))
         pygame.display.update()
