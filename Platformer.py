@@ -1,6 +1,8 @@
 import pygame, sys
 from pygame.locals import *
 from enemy import *
+from projectile import *
+
 pygame.init() # initiates pygame
 clock = pygame.time.Clock()
 
@@ -36,8 +38,12 @@ def load_map(path):
 
 game_map = load_map('map')
 
-grass_img = pygame.image.load('grass.png')
-dirt_img = pygame.image.load('dirt.png')
+grass_img = pygame.image.load('sprite/Map/sol01-flat.png')
+grass_img = pygame.transform.scale(grass_img,(16,16))
+
+dirt_img = pygame.image.load('sprite/Map/sol01-underground.png')
+dirt_img = pygame.transform.scale(dirt_img,(16,16))
+
 finish_img = pygame.image.load('finishLine.png')
 
 player_img = pygame.image.load('sprite/perso/player01-right.png')
@@ -57,7 +63,7 @@ last_facing = True
 dash_vel = 100
 countDash = 0
 
-bullets = []
+all_projectiles = pygame.sprite.Group()
 attacking = False
 
 def collision_test(rect,tiles):
@@ -126,11 +132,15 @@ while True: # game loop
                 tile_rects.append(pygame.Rect(x*16, y*16, 16, 16))
             x += 1
         y += 1
-    for ennemi in ennemies:
-        ennemi.draw(display)
+
+    for enemy_draw in ennemies:
+        enemy_draw.draw(display)
+
     jumping_img = [pygame.transform.scale(pygame.image.load('sprite/perso/player01-run.png'), (29, 32)),
                    pygame.transform.scale(pygame.image.load('sprite/perso/player01-run-right.png'), (29, 32))]
+
     player_movement = [0, 0]
+
     if moving_right:
         player_movement[0] += 4
     if moving_left:
@@ -141,6 +151,7 @@ while True: # game loop
     elif dashing_right:
         player_movement[0] += dash_vel
         dashing_right = False
+
     player_movement[1] += vertical_momentum
     vertical_momentum += 0.2
 
@@ -152,6 +163,18 @@ while True: # game loop
         vertical_momentum = 0
     else:
         air_timer += 1
+
+    for projectile in all_projectiles:
+        if projectile.direction:
+            projectile.move(scroll)
+        else:
+            projectile.move_left(scroll)
+        for enemy_check in ennemies:
+            if projectile.rect.x == enemy_check.hitbox[0] and (projectile.rect.y < enemy_check.hitbox[1] + enemy_check.height and projectile.rect.y > enemy_check.hitbox[1]):
+                enemy_check.hit()
+                all_projectiles.remove(projectile)
+
+    all_projectiles.draw(display)
 
     moving_right_img = [pygame.transform.scale(pygame.image.load('sprite/perso/player01-right.png'), (29,32)),
                           pygame.transform.scale(pygame.image.load('sprite/perso/player01-run03-right.png'), (29,32)),
@@ -183,6 +206,9 @@ while True: # game loop
         else:
             display.blit(player_img_left, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
 
+    if player_rect.y > 768:
+        player_rect.x = 0
+        player_rect.y = 0
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -211,11 +237,7 @@ while True: # game loop
                     dashImg = pygame.transform.rotate(dashImg, 180)
             if event.key == K_e:
                 attacking = True
-                if len(bullets) < 1:
-                    if rounds + 1 >= 27:
-                        rounds = 0
-                    display.blit(bulletsImg[rounds // 7], (self.x - 15, self.y))
-                    rounds += 1
+                all_projectiles.add(Projectile(player_rect.x, player_rect.y, scroll, last_facing))
 
         if event.type == KEYUP:
             if event.key == K_RIGHT:
