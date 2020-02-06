@@ -67,16 +67,19 @@ def choixNiveau(windows):
                 if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                     if selector == 1:
                         pygame.mixer.music.stop()
+                        pygame.mixer.music.set_volume(0.25)
                         pygame.mixer.music.load('Sounds/AHJ.ogg')
                         pygame.mixer.music.play()
                         niveau1()
                     if selector == 2:
                         pygame.mixer.music.stop()
+                        pygame.mixer.music.set_volume(0.25)
                         pygame.mixer.music.load('Sounds/AHJ.ogg')
                         pygame.mixer.music.play()
                         niveau2(windows,'1')
                     if selector == 3:
                         pygame.mixer.music.stop()
+                        pygame.mixer.music.set_volume(0.25)
                         pygame.mixer.music.load('Sounds/AHJ.ogg')
                         pygame.mixer.music.play()
                         niveau2(windows,'2')
