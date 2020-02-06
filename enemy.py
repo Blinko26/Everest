@@ -5,7 +5,10 @@ class Enemy(pygame.sprite.Sprite):
         super().__init__()
         self.width = width
         self.height = height
-        self.radius = 20
+        self.x = x
+        self.y = y
+        self.direction = True
+        self.radius = 300
         self.image = pygame.image.load('enemy01.png')
         #self.image = pygame.transform.scale(self.image, (self.width, self.height))
         self.vel = 1
@@ -19,37 +22,19 @@ class Enemy(pygame.sprite.Sprite):
 
 
     def move(self, prect, scroll):
-        if prect.x >= self.rect.x - self.radius or prect.x <= self.rect.x + self.radius:
-            if self.rect.x >= prect.x - scroll[0] + 30:
-                if self.scroll[0] != scroll[0]:
-                    self.rect.x += self.scroll[0] - scroll[0]
-                    self.scroll[0] = scroll[0]
-                self.rect.x -= self.vel
-                if self.scroll[1] != scroll[1]:
-                    self.rect.y += self.scroll[1] - scroll[1]
-                    self.scroll[1] = scroll[1]
-            else:
-                if self.scroll[0] != scroll[0]:
-                    self.rect.x += self.scroll[0] - scroll[0]
-                    self.scroll[0] = scroll[0]
-                self.rect.x += self.vel
-                if self.scroll[1] != scroll[1]:
-                    self.rect.y += self.scroll[1] - scroll[1]
-                    self.scroll[1] = scroll[1]
+        if self.scroll[0] != scroll[0]:
+            self.rect.x += self.scroll[0] - scroll[0]
+            self.scroll[0] = scroll[0]
 
-            if self.rect.y >= prect.y - scroll[1]:
-                if self.scroll[0] != scroll[0]:
-                    self.rect.x += self.scroll[0] - scroll[0]
-                    self.scroll[0] = scroll[0]
-                self.rect.y -= self.vel
-                if self.scroll[1] != scroll[1]:
-                    self.rect.y += self.scroll[1] - scroll[1]
-                    self.scroll[1] = scroll[1]
-            else:
-                if self.scroll[0] != scroll[0]:
-                    self.rect.x += self.scroll[0] - scroll[0]
-                    self.scroll[0] = scroll[0]
-                self.rect.y += self.vel
-                if self.scroll[1] != scroll[1]:
-                    self.rect.y += self.scroll[1] - scroll[1]
-                    self.scroll[1] = scroll[1]
+        if self.scroll[1] != scroll[1]:
+            self.rect.y += self.scroll[1] - scroll[1]
+            self.scroll[1] = scroll[1]
+
+        if self.rect.x >= prect.x - scroll[0] + 30:
+            self.rect.x -= self.vel
+        else:
+            self.rect.x += self.vel
+        if self.rect.y >= prect.y - scroll[1]:
+            self.rect.y -= self.vel
+        else:
+            self.rect.y += self.vel
