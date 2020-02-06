@@ -27,15 +27,13 @@ class Enemy_old(object):
             if self.walkCount + 1 >= 33:
                 self.walkCount = 0
             if self.vel >= 0:
-                #windows.blit(self.image[0], (self.x, self.y))
+                windows.blit(self.image[0], (self.x, self.y))
                 self.walkCount += 1
             else:
                 saveImg = pygame.transform.flip(pygame.transform.rotate(self.image[0], 180), False, True)
                 windows.blit(saveImg, (self.x, self.y))
                 self.walkCount += 1
             self.hitbox = (self.x, self.y, 60, 30)
-            pygame.draw.rect(windows, (255, 0, 0), (self.hitbox[0], self.hitbox[1], 29, 32), 2)
-
             pygame.draw.rect(windows, (255, 0, 0), (self.hitbox[0], self.hitbox[1] - 20, 50, 10))
             pygame.draw.rect(windows, (0, 128, 0),
                              (self.hitbox[0], self.hitbox[1] - 20, 50 - (5 * (10 - self.health)), 10))
