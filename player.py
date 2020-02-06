@@ -9,7 +9,7 @@ class Player(object):
 
         self.width = width
         self.height = height
-        self.velBase = 10
+        self.velBase = 5
         self.vel = self.velBase
         self.dashVel = 200
 
@@ -68,7 +68,6 @@ class Player(object):
     def draw(self, windows):
         if self.walkCount + 1 >= 27:
             self.walkCount = 0
-
         if not self.standing:
             if self.isJump:
                 if self.right:
@@ -105,12 +104,11 @@ class Player(object):
         self.hitbox = (self.x, self.y, 60, 64)
         #pygame.draw.rect(windows, (255, 0, 0), self.hitbox, 2)
         font = pygame.font.SysFont("comicsans", 30, True)
-        text = font.render("Health: ",1, (0, 0, 0))  # Arguments are: text, anti-aliasing, color
+        text = font.render("Health: ", 1, (0, 0, 0))  # Arguments are: text, anti-aliasing, color
         windows.blit(text, (20, 26))
         pygame.draw.rect(windows, (255, 0, 0), (120, 30, 50 - (5 * (10 - 20)), 10))
         pygame.draw.rect(windows, (0, 128, 0),
                          (120, 30, 50 - (5 * (10 - self.health)), 10))
-        pygame.display.update()
 
     def dash(self, window):
         now = pygame.time.get_ticks()
@@ -144,7 +142,8 @@ class Player(object):
                 count_dash += 1
                 if count_dash >= 20:
                     count_dash = 0
-                pygame.display.update()
+
+            pygame.display.flip()
 
     def hit(self):
         now = pygame.time.get_ticks()
@@ -155,7 +154,6 @@ class Player(object):
             else:
                 self.visible = False
                 self.hitbox = (-10000, -10000, -10000, -100000)
-        pygame.display.update()
 
 
 
