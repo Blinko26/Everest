@@ -41,8 +41,16 @@ game_map = load_map('map')
 grass_img = pygame.image.load('sprite/Map/sol01-flat.png')
 grass_img = pygame.transform.scale(grass_img,(16,16))
 
+grassEdgeLeft_img = pygame.image.load('sprite/Map/sol01-edgeLeft.png')
+grassEdgeLeft_img = pygame.transform.scale(grassEdgeLeft_img,(16,16))
+
+grassEdgeRight_img = pygame.image.load('sprite/Map/sol01-edgeRight.png')
+grassEdgeRight_img = pygame.transform.scale(grassEdgeRight_img,(16,16))
+
 dirt_img = pygame.image.load('sprite/Map/sol01-underground.png')
 dirt_img = pygame.transform.scale(dirt_img,(16,16))
+
+
 
 finish_img = pygame.image.load('finishLine.png')
 
@@ -122,6 +130,10 @@ while True: # game loop
                 display.blit(dirt_img, (x*16-scroll[0], y*16-scroll[1]))
             if tile == '2':
                 display.blit(grass_img, (x*16-scroll[0], y*16-scroll[1]))
+            if tile == '3':
+                display.blit(grassEdgeLeft_img, (x * 16 - scroll[0], y * 16 - scroll[1]))
+            if tile == '4':
+                display.blit(grassEdgeRight_img, (x * 16 - scroll[0], y * 16 - scroll[1]))
             if tile == 'f':
                 display.blit(finish_img, (x*16-scroll[0], y*16-scroll[1]))
             if tile == 'e':
