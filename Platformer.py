@@ -15,6 +15,7 @@ def niveau2(screen, nbNiveau):
     attackSound = pygame.mixer.Sound("Sounds/attack.ogg")
     enemySound = pygame.mixer.Sound("Sounds/enemy.ogg")
     enemyDeathSound = pygame.mixer.Sound("Sounds/enemy_death.ogg")
+    finishSound = pygame.mixer.Sound("Sounds/finish.ogg")
 
     clock = pygame.time.Clock()
 
@@ -347,6 +348,8 @@ def niveau2(screen, nbNiveau):
 
         if player_rect.x > zoneVictoire[0][0] and player_rect.x < zoneVictoire[2][0]:
             stopSounds()
+            finishSound.set_volume(0.1)
+            finishSound.play()
             run = False
             fin_jeu =  pygame.time.get_ticks() - debut_jeu
             f = open('highScore/highScore' + nbNiveau + '.txt', 'a')
