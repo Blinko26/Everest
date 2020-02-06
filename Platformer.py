@@ -28,6 +28,7 @@ def niveau2(screen, nbNiveau):
     screen = pygame.display.set_mode(WINDOW_SIZE,0,32) # initiate the window
 
     display = pygame.Surface((600, 400)) # used as the surface for rendering, which is scaled
+    font = pygame.font.SysFont("comicsans", 30, True)
 
     moving_right = False
     moving_left = False
@@ -38,6 +39,11 @@ def niveau2(screen, nbNiveau):
 
     true_scroll = [0, 0]
     zoneVictoire = []
+
+    #vie du perso : VARIABLES
+    viePerso = 20
+    vieTexte = font.render("Health :", 1, (0, 0, 0))
+
 
     dashing_left = False
     dashing_right = True
@@ -91,7 +97,6 @@ def niveau2(screen, nbNiveau):
     player_rect = pygame.Rect(100,100,29,32)
 
     timer = 0.0
-    font = pygame.font.SysFont("comicsans", 30, True)
     timerTexte = font.render("Timer : " + str(timer) + " s", 1, (0, 0, 0))
 
     dashImg = pygame.image.load('sprite/Dash/BLBLBLBL.png')
@@ -360,6 +365,11 @@ def niveau2(screen, nbNiveau):
             f.write("\n"+str(fin_jeu))
             f.close()
             ecranInterNiveau(screen,fin_jeu, nbNiveau)
+        #Vie du perso
+        pygame.draw.rect(display, (255, 0, 0), (120, 15, 50 - (5 * (10 - 20)), 10))
+        pygame.draw.rect(display, (0, 128, 0),
+                         (120, 15, 50 - (5 * (10 - viePerso)), 10))
+        display.blit(vieTexte, (20, 10))
         #Timer
         time = (pygame.time.get_ticks() - debut_jeu)/1000
         timerTexte = font.render("Timer : " + str(time) + " s", 1, (0, 0, 0))
