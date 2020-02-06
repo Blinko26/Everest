@@ -15,6 +15,7 @@ def niveau2(screen, nbNiveau):
     attackSound = pygame.mixer.Sound("Sounds/attack.ogg")
     enemySound = pygame.mixer.Sound("Sounds/enemy.ogg")
     enemyDeathSound = pygame.mixer.Sound("Sounds/enemy_death.ogg")
+    finishSound = pygame.mixer.Sound("Sounds/finish.ogg")
 
     clock = pygame.time.Clock()
 
@@ -64,6 +65,18 @@ def niveau2(screen, nbNiveau):
 
     dirt_img = pygame.image.load('sprite/Map/sol01-underground.png')
     dirt_img = pygame.transform.scale(dirt_img,(16,16))
+
+    nuage_img01 = pygame.image.load('sprite/Map/cloud02-flat01.png')
+    nuage_img01 = pygame.transform.scale(nuage_img01,(16,16))
+
+    nuage_img03 = pygame.image.load('sprite/Map/cloud02-flat02.png')
+    nuage_img03 = pygame.transform.scale(nuage_img03,(16,16))
+
+    nuage_img02 = pygame.image.load('sprite/Map/cloud02-flat-ralonge-01-03.png')
+    nuage_img02 = pygame.transform.scale(nuage_img02,(16,16))
+
+    nuage_img04 = pygame.image.load('sprite/Map/cloud02-flat03.png')
+    nuage_img04 = pygame.transform.scale(nuage_img04,(16,16))
 
 
 
@@ -169,6 +182,14 @@ def niveau2(screen, nbNiveau):
                     display.blit(grassEdgeLeft_img, (x * 16 - scroll[0], y * 16 - scroll[1]))
                 if tile == '4':
                     display.blit(grassEdgeRight_img, (x * 16 - scroll[0], y * 16 - scroll[1]))
+                if tile == 'a':
+                    display.blit(nuage_img01, (x * 16 - scroll[0], y * 16 - scroll[1]))
+                if tile == 'b':
+                    display.blit(nuage_img02, (x * 16 - scroll[0], y * 16 - scroll[1]))
+                if tile == 'c':
+                    display.blit(nuage_img03, (x * 16 - scroll[0], y * 16 - scroll[1]))
+                if tile == 'd':
+                    display.blit(nuage_img04, (x * 16 - scroll[0], y * 16 - scroll[1]))
                 if tile == 'f':
                     display.blit(finish_img, (x * 16 - scroll[0], y * 16 - scroll[1]))
                     zoneVictoire.append((x * 16 - scroll[0], y * 16 - scroll[1]))
@@ -327,6 +348,8 @@ def niveau2(screen, nbNiveau):
 
         if player_rect.x > zoneVictoire[0][0] and player_rect.x < zoneVictoire[2][0]:
             stopSounds()
+            finishSound.set_volume(0.1)
+            finishSound.play()
             run = False
             fin_jeu =  pygame.time.get_ticks() - debut_jeu
             f = open('highScore/highScore' + nbNiveau + '.txt', 'a')
