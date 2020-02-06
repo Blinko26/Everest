@@ -265,15 +265,13 @@ def niveau2(screen, nbNiveau):
             #pygame.draw.rect(display, (0, 0, 128), (player_rect.x-scroll[0], player_rect.y-scroll[1], enemyC.width, enemyC.width))
             if player_rect.y-scroll[1] - player_rect.width < enemyC.rect.y + enemyC.width and player_rect.y-scroll[1] + player_rect.height > enemyC.width:  # Checks x coords
                 if player_rect.x-scroll[0] + player_rect.width > enemyC.rect.x and player_rect.x-scroll[0] - player_rect.height < enemyC.rect.x + enemyC.height:  # Checks y coords
-                    print('ENNNEMIE TOUCHE JOUEUR')
                     now = pygame.time.get_ticks()
 
                     if now - last_hit >= hit_cooldown:
                         last_hit = now
                         if viePerso != 0:
                             viePerso -= 5
-                else:
-                    print('TOUCHE PAS')
+
 
 
         for enemy in all_enemies:
