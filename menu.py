@@ -57,6 +57,7 @@ def drawMenu():
 
 def drawCredits():
     windows.blit(creditBackground, (0,0))
+    windows.blit(titre, (186, 80))
     pygame.display.update()
     exit = False
     while not(exit):
