@@ -8,6 +8,13 @@ def niveau2(screen, nbNiveau):
 
 
     pygame.init() # initiates pygame
+    pygame.mixer.init()
+
+    walkingSound = pygame.mixer.Sound("Sounds/walking.ogg")
+    dashSound = pygame.mixer.Sound("Sounds/dash.ogg")
+    attackSound = pygame.mixer.Sound("Sounds/attack.ogg")
+    enemySound = pygame.mixer.Sound("Sounds/enemy.ogg")
+    enemyDeathSound = pygame.mixer.Sound("Sounds/enemy_death.ogg")
 
     clock = pygame.time.Clock()
 
@@ -87,6 +94,13 @@ def niveau2(screen, nbNiveau):
     all_projectiles = pygame.sprite.Group()
     all_spawners = []
     list_of_spawned = []
+
+    def stopSounds():
+        attackSound.stop()
+        walkingSound.stop()
+        dashSound.stop()
+        enemySound.stop()
+        enemyDeathSound.stop()
 
     def collision_test(rect,tiles):
         hit_list = []
@@ -207,6 +221,8 @@ def niveau2(screen, nbNiveau):
 
             for enemy in all_enemies:
                 if pygame.sprite.collide_rect(projectile, enemy):
+                    enemySound.stop()
+                    enemyDeathSound.play()
                     all_enemies.remove(enemy)
                     all_projectiles.remove(projectile)
 
@@ -257,15 +273,18 @@ def niveau2(screen, nbNiveau):
                 sys.exit()
             if event.type == KEYDOWN:
                 if event.key == K_RIGHT:
+                    walkingSound.play(loops=1000)
                     moving_right = True
                     moving_left = False
                 if event.key == K_LEFT:
+                    walkingSound.play(loops=1000)
                     moving_left = True
                     moving_right = False
                 if event.key == K_UP or event.key == K_SPACE:
                     if air_timer < 6:
                         vertical_momentum = -5
                 if event.key == K_a:
+                    dashSound.play()
                     if not last_facing:
                         dashing_left = True
                         countDash = 1
@@ -278,13 +297,16 @@ def niveau2(screen, nbNiveau):
                         dashImg = pygame.transform.rotate(dashImg, 180)
                 if event.key == K_e:
                     attacking = True
+                    attackSound.play()
                     all_projectiles.add(Projectile(player_rect.x, player_rect.y, scroll, last_facing))
                 if event.key == K_ESCAPE:
                     run = False
             if event.type == KEYUP:
                 if event.key == K_RIGHT:
+                    walkingSound.stop()
                     moving_right = False
                 if event.key == K_LEFT:
+                    walkingSound.stop()
                     moving_left = False
 
         walkCount += 1
@@ -304,6 +326,7 @@ def niveau2(screen, nbNiveau):
                 countDash = 0
 
         if player_rect.x > zoneVictoire[0][0] and player_rect.x < zoneVictoire[2][0]:
+            stopSounds()
             run = False
             fin_jeu =  pygame.time.get_ticks() - debut_jeu
             f = open('highScore/highScore' + nbNiveau + '.txt', 'a')
