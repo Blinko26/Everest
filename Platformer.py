@@ -4,9 +4,8 @@ from enemy import *
 from projectile import *
 def niveau2(screen, nbNiveau):
 
-
-
     pygame.init() # initiates pygame
+
     clock = pygame.time.Clock()
 
     pygame.display.set_caption('Pygame Platformer')
@@ -44,16 +43,8 @@ def niveau2(screen, nbNiveau):
     grass_img = pygame.image.load('sprite/Map/sol01-flat.png')
     grass_img = pygame.transform.scale(grass_img,(16,16))
 
-    grassEdgeLeft_img = pygame.image.load('sprite/Map/sol01-edgeLeft.png')
-    grassEdgeLeft_img = pygame.transform.scale(grassEdgeLeft_img,(16,16))
-
-    grassEdgeRight_img = pygame.image.load('sprite/Map/sol01-edgeRight.png')
-    grassEdgeRight_img = pygame.transform.scale(grassEdgeRight_img,(16,16))
-
     dirt_img = pygame.image.load('sprite/Map/sol01-underground.png')
     dirt_img = pygame.transform.scale(dirt_img,(16,16))
-
-
 
     finish_img = pygame.image.load('finishLine.png')
 
@@ -68,13 +59,19 @@ def niveau2(screen, nbNiveau):
     dashImg = pygame.image.load('sprite/Dash/BLBLBLBL.png')
     dashImg = pygame.transform.scale(dashImg, (29,32))
 
+    grassEdgeLeft_img = pygame.transform.scale(pygame.image.load('sprite/Map/sol01-edgeLeft.png'), (16,16))
+    grassEdgeRight_img = pygame.transform.scale(pygame.image.load('sprite/Map/sol01-edgeRight.png'), (16, 16))
+
     background_objects = [[0.25,[120,10,70,400]],[0.25,[280,30,40,400]],[0.5,[30,40,40,400]],[0.5,[130,90,100,400]],[0.5,[300,80,120,400]]]
 
     last_facing = True
     dash_vel = 100
     countDash = 0
 
+    all_spawners = []
+    list_of_spawned = []
     all_projectiles = pygame.sprite.Group()
+    all_enemies = pygame.sprite.Group()
     attacking = False
 
     def collision_test(rect,tiles):
@@ -106,6 +103,11 @@ def niveau2(screen, nbNiveau):
                 collision_types['top'] = True
         return rect, collision_types
 
+    def spawn_enemies():
+        for spawn in all_spawners:
+            all_enemies.add(Enemy(spawn[0], spawn[1], spawn[2], spawn[3], spawn[4]))
+            all_spawners.remove(spawn)
+
     run = True
     while run: # game loop
         display.fill((146,244,255)) # clear screen by filling it with blue
@@ -124,33 +126,31 @@ def niveau2(screen, nbNiveau):
             else:
                 pygame.draw.rect(display,(9,91,85),obj_rect)
 
-        tile_rects = []
-        ennemies = []
-        y = 0
-        for layer in game_map:
-            x = 0
-            for tile in layer:
-                if tile == '1':
-                    display.blit(dirt_img, (x*16-scroll[0], y*16-scroll[1]))
-                if tile == '2':
-                    display.blit(grass_img, (x*16-scroll[0], y*16-scroll[1]))
-                if tile == '3':
-                    display.blit(grassEdgeLeft_img, (x * 16 - scroll[0], y * 16 - scroll[1]))
-                if tile == '4':
-                    display.blit(grassEdgeRight_img, (x * 16 - scroll[0], y * 16 - scroll[1]))
-                if tile == 'f':
-                    display.blit(finish_img, (x*16-scroll[0], y*16-scroll[1]))
-                if tile == 'e':
-                    mechant = enemy(x * 16 - scroll[0], y + 65 - scroll[1], 29, 32, x - 25)
-                    ennemies.append(mechant)
-                    enemy_atk_img = pygame.image.load('enemy01-attack.png')
-                if tile != '0':
-                    tile_rects.append(pygame.Rect(x*16, y*16, 16, 16))
-                x += 1
-            y += 1
+            tile_rects = []
 
-        for enemy_draw in ennemies:
-            enemy_draw.draw(display)
+            y = 0
+            for layer in game_map:
+                x = 0
+                for tile in layer:
+                    if tile == '1':
+                        display.blit(dirt_img, (x*16-scroll[0], y*16-scroll[1]))
+                    if tile == '2':
+                        display.blit(grass_img, (x*16-scroll[0], y*16-scroll[1]))
+                    if tile == '3':
+                        display.blit(grassEdgeLeft_img, (x * 16 - scroll[0], y * 16 - scroll[1]))
+                    if tile == '4':
+                        display.blit(grassEdgeRight_img, (x * 16 - scroll[0], y * 16 - scroll[1]))
+                    if tile == 'f':
+                        display.blit(finish_img, (x*16-scroll[0], y*16-scroll[1]))
+                    if tile == 'e':
+                        if (x, y) not in list_of_spawned:
+                            all_spawners.append((x * 16, y + 65, 29, 32, scroll))
+                            spawn_enemies()
+                            list_of_spawned.append((x, y))
+                    if tile != '0':
+                        tile_rects.append(pygame.Rect(x*16, y*16, 16, 16))
+                    x += 1
+                y += 1
 
         jumping_img = [pygame.transform.scale(pygame.image.load('sprite/perso/player01-run.png'), (29, 32)),
                        pygame.transform.scale(pygame.image.load('sprite/perso/player01-run-right.png'), (29, 32))]
@@ -182,15 +182,26 @@ def niveau2(screen, nbNiveau):
 
         for projectile in all_projectiles:
             if projectile.direction:
-                projectile.move(scroll)
+                projectile.move(scroll, vertical_momentum)
             else:
-                projectile.move_left(scroll)
-            for enemy_check in ennemies:
-                if projectile.rect.x == enemy_check.hitbox[0] and (projectile.rect.y < enemy_check.hitbox[1] + enemy_check.height and projectile.rect.y > enemy_check.hitbox[1]):
-                    enemy_check.hit()
+                projectile.move_left(scroll, vertical_momentum)
+
+            if projectile.rect.x > 1024 or projectile.rect.x < 0:
+                all_projectiles.remove(projectile)
+
+            for enemy in all_enemies:
+                if pygame.sprite.collide_rect(projectile, enemy):
+                    all_enemies.remove(enemy)
                     all_projectiles.remove(projectile)
 
+        for enemy in all_enemies:
+           enemy.move(player_rect, scroll)
+
+        pygame.draw.rect(display, (255, 0, 0), (player_rect.x-scroll[0],player_rect.y-scroll[1], 29, 32), 2)
         all_projectiles.draw(display)
+        all_enemies.draw(display)
+
+
 
         moving_right_img = [pygame.transform.scale(pygame.image.load('sprite/perso/player01-right.png'), (29,32)),
                               pygame.transform.scale(pygame.image.load('sprite/perso/player01-run03-right.png'), (29,32)),
@@ -252,7 +263,6 @@ def niveau2(screen, nbNiveau):
                         display.blit(dashImg, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
                         dashImg = pygame.transform.rotate(dashImg, 180)
                 if event.key == K_e:
-                    attacking = True
                     all_projectiles.add(Projectile(player_rect.x, player_rect.y, scroll, last_facing))
                 if event.key == K_ESCAPE:
                     run = False

@@ -14,7 +14,7 @@ run = True
 background = pygame.image.load('sprite/spriteMenu/backgroundmenu.png')
 background = pygame.transform.scale(background, (1024, 768))
 
-pygame.mixer.music.load("Sounds/AHJ.ogg")
+pygame.mixer.music.load("Sounds/CelestialEntities.ogg")
 pygame.mixer.music.play(loops=1)
 
 creditBackground = pygame.image.load('sprite/spriteMenu/creditsBackground.png')
@@ -84,7 +84,6 @@ while run:
                 print('space')
                 print(selector)
                 if selector == 1:
-                    pygame.mixer.music.stop()
                     choixNiveau(windows)
                 if selector == 2:
                     drawCredits()

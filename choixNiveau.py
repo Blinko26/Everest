@@ -72,10 +72,19 @@ def choixNiveau(windows):
                     print('space')
                     print(selector)
                     if selector == 1:
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load('Sounds/AHJ.ogg')
+                        pygame.mixer.music.play()
                         niveau1()
                     if selector == 2:
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load('Sounds/AHJ.ogg')
+                        pygame.mixer.music.play()
                         niveau2(windows,'1')
                     if selector == 3:
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load('Sounds/AHJ.ogg')
+                        pygame.mixer.music.play()
                         niveau2(windows,'2')
                     if selector == 4:
                         print('4')
