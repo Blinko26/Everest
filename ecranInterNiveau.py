@@ -1,4 +1,4 @@
-def choixNiveau(windows):
+def ecranInterNiveau(windows, clock):
     import pygame
     pygame.init()
     pygame.mixer.init()
@@ -14,18 +14,6 @@ def choixNiveau(windows):
     jouer = pygame.image.load('sprite/spriteMenu/jouer.png')
     jouer = pygame.transform.scale(jouer, (326, 71))
 
-    demo = pygame.image.load('sprite/spriteMenu/demo.png')
-    demo = pygame.transform.scale(demo, (326, 71))
-
-    niveau1bouton = pygame.image.load('sprite/spriteMenu/niveau1.png')
-    niveau1bouton = pygame.transform.scale(niveau1bouton, (326, 71))
-
-    niveau2bouton = pygame.image.load('sprite/spriteMenu/niveau2.png')
-    niveau2bouton = pygame.transform.scale(niveau2bouton, (326, 71))
-
-    niveau3bouton = pygame.image.load('sprite/spriteMenu/niveau3.png')
-    niveau3bouton = pygame.transform.scale(niveau3bouton, (326, 71))
-
     retour = pygame.image.load('sprite/spriteMenu/retour.png')
     retour = pygame.transform.scale(retour, (326, 71))
 
@@ -33,18 +21,10 @@ def choixNiveau(windows):
     selection = pygame.transform.scale(selection, (41, 71))
 
     selector = 1
-
-    choixNiveauB = False
-
     placement = 280
 
-    def drawChoixNiveau():
+    def drawecranInterNiveau():
         windows.blit(background, (0, 0))
-        windows.blit(demo,(349,280))
-        windows.blit(niveau1bouton, (349, 380))
-        windows.blit(niveau2bouton, (349, 480))
-        windows.blit(niveau3bouton, (349, 580))
-        windows.blit(retour, (349, 680))
         if selector == 1:
             placement = 280
         elif selector == 2:
@@ -90,4 +70,4 @@ def choixNiveau(windows):
                     print('up')
                     if selector != 1:
                         selector -= 1
-            drawChoixNiveau()
+            drawecranInterNiveau()
