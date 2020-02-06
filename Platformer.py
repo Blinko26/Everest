@@ -90,6 +90,10 @@ def niveau2(screen, nbNiveau):
 
     player_rect = pygame.Rect(100,100,29,32)
 
+    timer = 0.0
+    font = pygame.font.SysFont("comicsans", 30, True)
+    timerTexte = font.render("Timer : " + str(timer) + " s", 1, (0, 0, 0))
+
     dashImg = pygame.image.load('sprite/Dash/BLBLBLBL.png')
     dashImg = pygame.transform.scale(dashImg, (29,32))
 
@@ -345,7 +349,7 @@ def niveau2(screen, nbNiveau):
             countDash += 1
             if countDash >= 200:
                 countDash = 0
-
+        #Zone de fin
         if player_rect.x > zoneVictoire[0][0] and player_rect.x < zoneVictoire[2][0]:
             stopSounds()
             finishSound.set_volume(0.1)
@@ -356,7 +360,12 @@ def niveau2(screen, nbNiveau):
             f.write("\n"+str(fin_jeu))
             f.close()
             ecranInterNiveau(screen,fin_jeu, nbNiveau)
+        #Timer
+        time = (pygame.time.get_ticks() - debut_jeu)/1000
+        timerTexte = font.render("Timer : " + str(time) + " s", 1, (0, 0, 0))
+        display.blit(timerTexte, (400, 10))
 
+        #fin timer
         screen.blit(pygame.transform.scale(display,WINDOW_SIZE),(0,0))
         pygame.display.update()
         clock.tick(60)
