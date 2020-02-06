@@ -250,7 +250,7 @@ def niveau2(screen, nbNiveau):
         for enemy in all_enemies:
             enemy.move(player_rect, scroll)
 
-        pygame.draw.rect(display, (255, 0, 0), (player_rect.x - scroll[0], player_rect.y - scroll[1], 29, 32), 2)
+        #pygame.draw.rect(display, (255, 0, 0), (player_rect.x - scroll[0], player_rect.y - scroll[1], 29, 32), 2)
         all_projectiles.draw(display)
         all_enemies.draw(display)
 

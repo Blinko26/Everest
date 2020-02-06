@@ -77,7 +77,7 @@ def niveau1():
             else:
                 facing = 1
 
-            if len(bullets) < 999:
+            if len(bullets) < 3:
                 bullets.append(projectile(round(man.x+man.width//2), round(man.y + man.height//2), 18, (0, 0, 0), facing))
         if keys[pygame.K_ESCAPE]:
             run = False
