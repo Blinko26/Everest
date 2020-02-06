@@ -30,7 +30,7 @@ class Enemy(pygame.sprite.Sprite):
             self.rect.y += self.scroll[1] - scroll[1]
             self.scroll[1] = scroll[1]
 
-        if self.rect.x >= prect.x - scroll[0] + 30:
+        if self.rect.x >= prect.x - scroll[0] + 25:
             self.rect.x -= self.vel
         else:
             self.rect.x += self.vel

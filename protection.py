@@ -19,5 +19,4 @@ class Protection(object):
             if self.rounds +1 >= 27:
                 self.rounds = 0
             windows.blit(self.picture[self.rounds // 9], (x - 15, y - 15))
-
             self.rounds += 1

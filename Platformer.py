@@ -37,6 +37,9 @@ def niveau2(screen, nbNiveau):
 
     walkCount = 0
 
+    hit_cooldown = 1000
+    last_hit = pygame.time.get_ticks()
+
     true_scroll = [0, 0]
     zoneVictoire = []
 
@@ -239,7 +242,7 @@ def niveau2(screen, nbNiveau):
             vertical_momentum = 0
         else:
             air_timer += 1
-
+        #Gestion des projectiles et collision avec les ennemies
         for projectile in all_projectiles:
             if projectile.direction:
                 projectile.move(scroll, vertical_momentum)
@@ -255,6 +258,23 @@ def niveau2(screen, nbNiveau):
                     enemyDeathSound.play()
                     all_enemies.remove(enemy)
                     all_projectiles.remove(projectile)
+        #Gestion collision avec le joueur
+        for enemyC in all_enemies:
+            #Pour afficher les hitbox
+            #pygame.draw.rect(display, (0, 128, 0),(enemyC.rect.x,enemyC.rect.y , enemyC.width, enemyC.width))
+            #pygame.draw.rect(display, (0, 0, 128), (player_rect.x-scroll[0], player_rect.y-scroll[1], enemyC.width, enemyC.width))
+            if player_rect.y-scroll[1] - player_rect.width < enemyC.rect.y + enemyC.width and player_rect.y-scroll[1] + player_rect.height > enemyC.width:  # Checks x coords
+                if player_rect.x-scroll[0] + player_rect.width > enemyC.rect.x and player_rect.x-scroll[0] - player_rect.height < enemyC.rect.x + enemyC.height:  # Checks y coords
+                    print('ENNNEMIE TOUCHE JOUEUR')
+                    now = pygame.time.get_ticks()
+
+                    if now - last_hit >= hit_cooldown:
+                        last_hit = now
+                        if viePerso != 0:
+                            viePerso -= 5
+                else:
+                    print('TOUCHE PAS')
+
 
         for enemy in all_enemies:
             enemy.move(player_rect, scroll)
@@ -370,6 +390,11 @@ def niveau2(screen, nbNiveau):
         pygame.draw.rect(display, (0, 128, 0),
                          (120, 15, 50 - (5 * (10 - viePerso)), 10))
         display.blit(vieTexte, (20, 10))
+        #Perso Mort
+        if viePerso <= 0:
+            player_rect.x = 0
+            player_rect.y = 0
+            viePerso = 20
         #Timer
         time = (pygame.time.get_ticks() - debut_jeu)/1000
         timerTexte = font.render("Timer : " + str(time) + " s", 1, (0, 0, 0))
