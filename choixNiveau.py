@@ -74,9 +74,9 @@ def choixNiveau(windows):
                     if selector == 1:
                         niveau1()
                     if selector == 2:
-                        niveau2(windows)
+                        niveau2(windows,'1')
                     if selector == 3:
-                        print('3')
+                        niveau2(windows,'2')
                     if selector == 4:
                         print('4')
                     if selector == 5:

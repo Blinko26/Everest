@@ -2,7 +2,7 @@ import pygame, sys
 from pygame.locals import *
 from enemy import *
 from projectile import *
-def niveau2(screen):
+def niveau2(screen, nbNiveau):
 
 
 
@@ -30,7 +30,7 @@ def niveau2(screen):
     dashing_right = True
 
     def load_map(path):
-        f = open(path + '.txt','r')
+        f = open(path + nbNiveau +'.txt','r')
         data = f.read()
         f.close()
         data = data.split('\n')
@@ -106,7 +106,8 @@ def niveau2(screen):
                 collision_types['top'] = True
         return rect, collision_types
 
-    while True: # game loop
+    run = True
+    while run: # game loop
         display.fill((146,244,255)) # clear screen by filling it with blue
 
         true_scroll[0] += (player_rect.x-true_scroll[0]-152)/20
@@ -253,7 +254,8 @@ def niveau2(screen):
                 if event.key == K_e:
                     attacking = True
                     all_projectiles.add(Projectile(player_rect.x, player_rect.y, scroll, last_facing))
-
+                if event.key == K_ESCAPE:
+                    run = False
             if event.type == KEYUP:
                 if event.key == K_RIGHT:
                     moving_right = False
