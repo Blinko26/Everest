@@ -57,6 +57,9 @@ last_facing = True
 dash_vel = 100
 countDash = 0
 
+bullets = []
+attacking = False
+
 def collision_test(rect,tiles):
     hit_list = []
     for tile in tiles:
@@ -206,6 +209,13 @@ while True: # game loop
                     dashImg = pygame.transform.rotate(dashImg, 180)
                     display.blit(dashImg, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
                     dashImg = pygame.transform.rotate(dashImg, 180)
+            if event.key == K_e:
+                attacking = True
+                if len(bullets) < 1:
+                    if rounds + 1 >= 27:
+                        rounds = 0
+                    display.blit(bulletsImg[rounds // 7], (self.x - 15, self.y))
+                    rounds += 1
 
         if event.type == KEYUP:
             if event.key == K_RIGHT:
