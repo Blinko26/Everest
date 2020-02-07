@@ -40,14 +40,20 @@ def niveau2(screen, nbNiveau):
     hit_cooldown = 1000
     last_hit = pygame.time.get_ticks()
 
+    dash_cooldown = 1000
+    last_dash = pygame.time.get_ticks()
+
+    shoot_cooldown = 1000
+    last_shoot = pygame.time.get_ticks()
+
     true_scroll = [0, 0]
     zoneVictoire = []
 
     #vie du perso : VARIABLES
     viePerso = 20
     vieTexte = font.render("Health :", 1, (0, 0, 0))
-
-
+    #Dash
+    dashTexte = font.render("Dash :", 1, (0, 0, 0))
     dashing_left = False
     dashing_right = True
 
@@ -102,7 +108,7 @@ def niveau2(screen, nbNiveau):
     timer = 0.0
     timerTexte = font.render("Timer : " + str(timer) + " s", 1, (0, 0, 0))
 
-    dashImg = pygame.image.load('sprite/Dash/BLBLBLBL.png')
+    dashImg = pygame.image.load('sprite/Dash/dashCopie.png')
     dashImg = pygame.transform.scale(dashImg, (29,32))
 
     #background_objects = [[0.25,[120,10,70,400]],[0.25,[280,30,40,400]],[0.5,[30,40,40,400]],[0.5,[130,90,100,400]],[0.5,[300,80,120,400]]]
@@ -331,22 +337,27 @@ def niveau2(screen, nbNiveau):
                 if event.key == K_UP or event.key == K_SPACE:
                     if air_timer < 6:
                         vertical_momentum = -5
+                now = pygame.time.get_ticks()
                 if event.key == K_a:
-                    dashSound.play()
-                    if not last_facing:
-                        dashing_left = True
-                        countDash = 1
-                        display.blit(dashImg, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
-                    else:
-                        dashing_right = True
-                        countDash = 1
-                        dashImg = pygame.transform.rotate(dashImg, 180)
-                        display.blit(dashImg, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
-                        dashImg = pygame.transform.rotate(dashImg, 180)
+                    if now - last_dash >= dash_cooldown:
+                        last_dash = now
+                        dashSound.play()
+                        if not last_facing:
+                            dashing_left = True
+                            countDash = 1
+                            display.blit(dashImg, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+                        else:
+                            dashing_right = True
+                            countDash = 1
+                            dashImg = pygame.transform.rotate(dashImg, 180)
+                            display.blit(dashImg, (player_rect.x - scroll[0], player_rect.y - scroll[1]))
+                            dashImg = pygame.transform.rotate(dashImg, 180)
                 if event.key == K_e:
-                    attacking = True
-                    attackSound.play()
-                    all_projectiles.add(Projectile(player_rect.x, player_rect.y, scroll, last_facing))
+                    if now - last_shoot >= shoot_cooldown:
+                        last_shoot = now
+                        attacking = True
+                        attackSound.play()
+                        all_projectiles.add(Projectile(player_rect.x, player_rect.y, scroll, last_facing))
                 if event.key == K_ESCAPE:
                     run = False
             if event.type == KEYUP:
@@ -397,6 +408,17 @@ def niveau2(screen, nbNiveau):
         time = (pygame.time.get_ticks() - debut_jeu)/1000
         timerTexte = font.render("Timer : " + str(time) + " s", 1, (0, 0, 0))
         display.blit(timerTexte, (400, 10))
+        #cooldown dash
+        pygame.draw.rect(display, (255, 0, 0), (115, 380, dash_cooldown/10, 10))
+        dashTimer = pygame.time.get_ticks() - last_dash
+        if dashTimer <=1000:
+            pygame.draw.rect(display, (0, 0, 128),
+                             (115, 380, ((dashTimer)/10), 10))
+            display.blit(dashTexte, (20, 375))
+        else:
+            pygame.draw.rect(display, (0, 0, 128),
+                             (115, 380, 100, 10))
+            display.blit(dashTexte, (20, 375))
 
         #fin timer
         screen.blit(pygame.transform.scale(display,WINDOW_SIZE),(0,0))
